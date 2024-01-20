@@ -2,15 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StatusBar, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import skateVideos from '../api/mock/skate-videos.json'
 import AnnouncementCard from '../components/AnnouncementCard';
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
-
-// Styled components
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-`;
+import { connect, useDispatch } from 'react-redux';
+import { Container } from '../styles/StyledComponents';
 
 const SectionHeader = styled.Text`
   font-size: 20px;
@@ -67,15 +62,12 @@ const VideoItem = ({ video }) => (
 );
 
 // HomeScreen component
-export default function HomeScreen({ navigation }) {
-
-  const [videos, setVideos] = useState([]);
+const HomeScreen = ({ navigation, searchVisible, videos }) => {
+  
+  // const dispatch = useDispatch();
+  // const [videos, setVideos] = useState([]);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
-
-  useEffect(() => {
-    setVideos(skateVideos);
-  }, []);
-
+    
   const handleAnnouncementPress = () => {
     // Handle announcement button press logic
   };
@@ -83,10 +75,6 @@ export default function HomeScreen({ navigation }) {
   const closeAnnouncement = () => {
     setShowAnnouncement(false);
   };
-
-  useEffect(() => {
-    setVideos(skateVideos)
-  }, [])
 
   // Example data for each section
   const newVideos = videos.slice(0, 5);  // Assuming 'videos' array has the data
@@ -96,33 +84,47 @@ export default function HomeScreen({ navigation }) {
   return (
     <Container>
       <StatusBar style="auto" />
-      <ScrollView>
-        {showAnnouncement && (
-          <AnnouncementCard
-            text="Subscribe for full access!"
-            buttonText="Learn More"
-            onButtonPress={handleAnnouncementPress}
-            onClose={closeAnnouncement}
-          />
-        )}
-        {/* New Videos Section */}
-        <SectionHeader>New Arrivals</SectionHeader>
-        <HorizontalList>
-          {newVideos.map((video, index) => <VideoItem key={index} video={video} />)}
-        </HorizontalList>
-
-        {/* Most Popular Section */}
-        <SectionHeader>Most Popular</SectionHeader>
-        <HorizontalList>
-          {mostPopular.map((video, index) => <VideoItem key={index} video={video} />)}
-        </HorizontalList>
-
-        {/* Street Section */}
-        <SectionHeader>Street</SectionHeader>
-        <HorizontalList>
-          {streetVideos.map((video, index) => <VideoItem key={index} video={video} />)}
-        </HorizontalList>
-      </ScrollView>
+      {
+        searchVisible ? (
+          <GlobalSearchList videos={videos} />
+        ) : (
+          <ScrollView>
+            {showAnnouncement && (
+              <AnnouncementCard
+                text="Subscribe for full access!"
+                buttonText="Learn More"
+                onButtonPress={handleAnnouncementPress}
+                onClose={closeAnnouncement}
+              />
+            )}
+            {/* New Videos Section */}
+            <SectionHeader>New Arrivals</SectionHeader>
+            <HorizontalList>
+              {newVideos.map((video, index) => <VideoItem key={index} video={video} />)}
+            </HorizontalList>
+    
+            {/* Most Popular Section */}
+            <SectionHeader>Most Popular</SectionHeader>
+            <HorizontalList>
+              {mostPopular.map((video, index) => <VideoItem key={index} video={video} />)}
+            </HorizontalList>
+    
+            {/* Street Section */}
+            <SectionHeader>Street</SectionHeader>
+            <HorizontalList>
+              {streetVideos.map((video, index) => <VideoItem key={index} video={video} />)}
+            </HorizontalList>
+          </ScrollView>
+        )
+      }
     </Container>
+
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  searchVisible: state.searchVisible,
+  videos: state.videos,
+});
+
+export default connect(mapStateToProps)(HomeScreen);

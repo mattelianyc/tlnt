@@ -15,18 +15,17 @@ export default function CustomDrawerContent(props) {
 
   return (
     <DrawerContentScrollView {...props}>
+
       <DrawerTop>
         {filteredItems.map(route => (
-          
-            <DrawerItem
-              key={route.key}
-              label={route.name}
-              onPress={() => props.navigation.navigate(route.name)}
-            />
-            
+          <DrawerItem
+            key={route.key}
+            label={route.name}
+            onPress={() => props.navigation.navigate(route.name)}
+          />
         ))}
         <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-          <Ionicons name="notifications" size={24} color="black" />
+          <Ionicons name="notifications" size={32} color="black" />
         </TouchableOpacity>
       </DrawerTop>
 
@@ -42,26 +41,20 @@ export default function CustomDrawerContent(props) {
         onRequestClose={() => setModalVisible(false)}>
         <ModalOverlay>
           <ModalContent>
-
             <ModalHeader>
               <Text>ACTIVITY</Text>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Ionicons name="close" size={24}/>
+                <Ionicons name="close" size={32}/>
               </TouchableOpacity>
             </ModalHeader>
-
             <ModalBody>
-
             </ModalBody>
-
             <ModalFooter>
-
             </ModalFooter>
           </ModalContent>
         </ModalOverlay>
       </Modal>
-
-
+      
     </DrawerContentScrollView>
   );
 }
