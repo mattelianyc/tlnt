@@ -22,6 +22,7 @@ export const HeaderContainer = styled.View`
   align-items: center;
   padding: 15px;
   paddingTop: 50px;
+  min-height: 100px;
 `;
 
 export const SearchWrapper = styled.View`

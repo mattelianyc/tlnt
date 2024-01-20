@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, TextInput, View, Text } from 'react-native';
-import { HeaderContainer, SearchBarContainer, SearchInput, TopNavLeft, TopNavMiddle, TopNavRight } from '../../styles/StyledComponents';
+import { HeaderContainer, TopNavLeft, TopNavMiddle, TopNavRight } from '../../styles/StyledComponents';
+import GlobalSearchBar from '../globalSearch/GlobalSearchBar';
 
 export default function CustomNavbar({ navigation, searchVisible, setSearchVisible }) {
   return (
@@ -13,13 +14,11 @@ export default function CustomNavbar({ navigation, searchVisible, setSearchVisib
       </TopNavLeft>
 
       <TopNavMiddle>
-        {!searchVisible && <Text style={{ color: 'black', fontSize: 24 }}>ollie</Text>}
+        {!searchVisible && <Text style={{ color: 'black', fontSize: 24 }}>0LL1E</Text>}
         
         {searchVisible ? 
           (
-            <SearchBarContainer>
-              <SearchInput placeholder="Search..." />
-            </SearchBarContainer>
+            <GlobalSearchBar />
           ) : null
         }
       </TopNavMiddle>

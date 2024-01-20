@@ -31,7 +31,6 @@ export default function CustomDrawerContent(props) {
       </DrawerTop>
 
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <DrawerItem label="profile" onPress={() => props.navigation.navigate('Profile')} />
         <DrawerItem label="account" onPress={() => props.navigation.navigate('Account')} />
         <DrawerItem label="settings" onPress={() => props.navigation.navigate('Settings')} />
       </View>
