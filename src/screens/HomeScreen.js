@@ -4,15 +4,8 @@ import { ScrollView, StatusBar, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AnnouncementCard from '../components/AnnouncementCard';
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
-import { connect, useDispatch } from 'react-redux';
-import { Container } from '../styles/StyledComponents';
-
-const SectionHeader = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-  padding: 20px 10px 0px 10px;
-  color: #000;
-`;
+import { connect } from 'react-redux';
+import { Container, SectionHeader, SectionHeaderText } from '../styles/StyledComponents';
 
 const HorizontalList = styled.ScrollView.attrs({
   horizontal: true,
@@ -98,19 +91,19 @@ const HomeScreen = ({ navigation, searchVisible, videos }) => {
               />
             )}
             {/* New Videos Section */}
-            <SectionHeader>New Arrivals</SectionHeader>
+            <SectionHeader><SectionHeaderText>New Arrivals</SectionHeaderText></SectionHeader>
             <HorizontalList>
               {newVideos.map((video, index) => <VideoItem key={index} video={video} />)}
             </HorizontalList>
     
             {/* Most Popular Section */}
-            <SectionHeader>Most Popular</SectionHeader>
+            <SectionHeader><SectionHeaderText>Most Popular</SectionHeaderText></SectionHeader>
             <HorizontalList>
               {mostPopular.map((video, index) => <VideoItem key={index} video={video} />)}
             </HorizontalList>
     
             {/* Street Section */}
-            <SectionHeader>Street</SectionHeader>
+            <SectionHeader><SectionHeaderText>Street</SectionHeaderText></SectionHeader>
             <HorizontalList>
               {streetVideos.map((video, index) => <VideoItem key={index} video={video} />)}
             </HorizontalList>

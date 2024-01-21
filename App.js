@@ -16,8 +16,7 @@ import store from './src/redux/store';
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-
-
+  
   const [searchVisible, setSearchVisible] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -44,7 +43,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Drawer.Navigator
-          initialRouteName="Browse"
+          initialRouteName="Home"
           screenOptions={{ 
           header: ({ navigation }) => (
               <CustomNavbar navigation={navigation} searchVisible={searchVisible} setSearchVisible={setSearchVisible} />

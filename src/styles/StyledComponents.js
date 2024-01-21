@@ -22,20 +22,21 @@ export const HeaderContainer = styled.View`
   min-height: 100px;
 `;
 
+export const SectionHeader = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+`;
+
+export const SectionHeaderText = styled.Text`
+  font-size: 24px;
+  font-weight: bold;
+`;
+
 export const SearchWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-`;
-
-export const SearchBarContainer = styled.View`
-  width: 95%;
-`;
-
-export const SearchInput = styled.TextInput`
-font-family: 'Spartan';
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px
 `;
 
 export const TopNavLeft = styled.View`
