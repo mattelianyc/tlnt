@@ -3303,6 +3303,11 @@ expo-asset@~9.0.2:
     invariant "^2.2.4"
     md5-file "^3.2.3"
 
+expo-av@^13.10.3:
+  version "13.10.3"
+  resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-13.10.3.tgz#8eddc9343fb166b790704c5015713041f5eee6bf"
+  integrity sha512-QDq2nIOZXBfc55pkAUQ3ckMH9g107Ws5je8GYTAT6Sn+tPyMA3YOVfwO79w/vFghKQcRFXX4AlBrcpoqCKNq7Q==
+
 expo-constants@~15.4.0:
   version "15.4.5"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-15.4.5.tgz#81756a4c4e1c020f840a419cd86a124a6d1fb35b"

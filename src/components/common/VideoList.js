@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import VideoModal from './VideoModal';
 
 const VideoList = ({ videos, layout }) => {
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+
+  const openModal = (video) => {
+    setSelectedVideo(video);
+    setModalVisible(true);
+  };
+
+
   const renderItem = (video) => (
-    <TouchableOpacity key={video.id} onPress={() => {/* Handle Video Press */}}>
+    <>
+    <TouchableOpacity key={`video-thumb-${video.id}`} onPress={() => openModal(video)}>
       {layout === 'horizontal' ? (
         <HorizontalItem>
           <Thumbnail layout={layout} source={{ uri: video.thumbnail }} />
@@ -27,6 +38,13 @@ const VideoList = ({ videos, layout }) => {
         </ListItem>
       )}
     </TouchableOpacity>
+    <VideoModal
+      key={`video-modal-${video.id}`}
+      isVisible={modalVisible}
+      video={selectedVideo}
+      onClose={() => setModalVisible(false)}
+    />
+    </>
   );
 
   return (
@@ -39,7 +57,9 @@ const VideoList = ({ videos, layout }) => {
         {videos.map(video => renderItem(video))}
       </ScrollView>
     )
-  );
+    
+    
+    );
 };
 
 export default VideoList;
