@@ -3,6 +3,41 @@ import { StatusBar, ScrollView, TouchableOpacity, Text, View } from 'react-nativ
 import styled from 'styled-components/native';
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
 import { connect } from 'react-redux';
+
+const ProfileScreen = ({ navigation, searchVisible, videos }) => {
+  return (
+    <Container>
+      <StatusBar style="auto" />
+      {searchVisible ? 
+        <GlobalSearchList videos={videos} /> : (
+          <ScrollView>
+            <ProfileHeader>
+              <Avatar source={{ uri: user.avatar }} />
+              <NameText>{user.name}</NameText>
+            </ProfileHeader>
+            <FollowingList>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 10 }}>Following</Text>
+              {user.following.map((skater, index) => (
+                <FollowingItem key={index}>
+                  <FollowingName>{skater}</FollowingName>
+                </FollowingItem>
+              ))}
+            </FollowingList>
+            {/* Add more sections like recent activity, favorite videos, settings, etc. */}
+          </ScrollView>
+        )
+      }
+    </Container>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  searchVisible: state.searchVisible,
+  videos: state.videos,
+});
+
+export default connect(mapStateToProps)(ProfileScreen);
+
 // Assuming you have a user object with fan profile data
 const user = {
   name: 'Fan Username',
@@ -47,37 +82,3 @@ const FollowingName = styled.Text`
   font-size: 18px;
   font-weight: bold;
 `;
-
-const ProfileScreen = ({ navigation, searchVisible, videos }) => {
-  return (
-    <Container>
-      <StatusBar style="auto" />
-      {searchVisible ? 
-        <GlobalSearchList videos={videos} /> : (
-          <ScrollView>
-            <ProfileHeader>
-              <Avatar source={{ uri: user.avatar }} />
-              <NameText>{user.name}</NameText>
-            </ProfileHeader>
-            <FollowingList>
-              <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 10 }}>Following</Text>
-              {user.following.map((skater, index) => (
-                <FollowingItem key={index}>
-                  <FollowingName>{skater}</FollowingName>
-                </FollowingItem>
-              ))}
-            </FollowingList>
-            {/* Add more sections like recent activity, favorite videos, settings, etc. */}
-          </ScrollView>
-        )
-      }
-    </Container>
-  );
-};
-
-const mapStateToProps = (state) => ({
-  searchVisible: state.searchVisible,
-  videos: state.videos,
-});
-
-export default connect(mapStateToProps)(ProfileScreen);

@@ -44,18 +44,23 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator
           initialRouteName="Home"
-          screenOptions={{ 
-          header: ({ navigation }) => (
-              <CustomNavbar navigation={navigation} searchVisible={searchVisible} setSearchVisible={setSearchVisible} />
+          screenOptions={({ route }) => ({
+            header: ({ navigation }) => (
+              <CustomNavbar
+                navigation={navigation}
+                searchVisible={searchVisible}
+                setSearchVisible={setSearchVisible}
+                routeName={route.name}
+              />
             ),
-            headerTintColor: 'black' 
-          }}
+            headerTintColor: 'black',
+          })}
           drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
           <Drawer.Screen name="0LL1E" component={BottomTabs} />
-          <Drawer.Screen name="Profile" component={ProfileScreen} />
-          <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="Account" component={AccountScreen} />
+          <Drawer.Screen name="profile" component={ProfileScreen} />
+          <Drawer.Screen name="settings" component={SettingsScreen} />
+          <Drawer.Screen name="account" component={AccountScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>

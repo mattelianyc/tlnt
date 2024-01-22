@@ -1,1 +1,92 @@
-[{"name": "Tony Hawk", "bio": "Legendary skateboarder known for completing the first documented 900 and for his licensed video game titles."}, {"name": "Rodney Mullen", "bio": "Influential skateboarder who pioneered many tricks including the flatground ollie, kickflip, heelflip, and impossible."}, {"name": "Bam Margera", "bio": "Professional skateboarder and television personality known for his appearances in the 'Jackass' TV and film series."}, {"name": "Nyjah Huston", "bio": "Professional street skateboarder known for his competition success and for being the highest paid skateboarder in the world."}, {"name": "Daewon Song", "bio": "Innovative skateboarder known for his technical skills and creative video parts."}, {"name": "Elissa Steamer", "bio": "Pioneering female skateboarder and the first woman to achieve pro status in the sport."}, {"name": "Paul Rodriguez", "bio": "Professional skateboarder with a successful career in both street and park skating."}, {"name": "Leticia Bufoni", "bio": "Brazilian professional skateboarder who is a five-time X Games gold medalist."}, {"name": "Andrew Reynolds", "bio": "Influential street skateboarder known for his smooth style and frontside flips."}, {"name": "Bob Burnquist", "bio": "Professional skateboarder known for his innovative vert skateboarding and for being the first to land a fakie 900."}]
+[
+  {
+    "name": "Tony Hawk",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Legendary skateboarder known for completing the first documented 900 and for his licensed video game titles.",
+    "postType": "text",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Rodney Mullen",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Influential skateboarder who pioneered many tricks including the flatground ollie, kickflip, heelflip, and impossible.",
+    "postType": "image",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Bam Margera",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Professional skateboarder and television personality known for his appearances in the 'Jackass' TV and film series.",
+    "postType": "text",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Nyjah Huston",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Professional street skateboarder known for his competition success and for being the highest paid skateboarder in the world.",
+    "postType": "image",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Daewon Song",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Innovative skateboarder known for his technical skills and creative video parts.",
+    "postType": "image",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Elissa Steamer",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Pioneering female skateboarder and the first woman to achieve pro status in the sport.",
+    "postType": "text",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Paul Rodriguez",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Professional skateboarder with a successful career in both street and park skating.",
+    "postType": "text",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Leticia Bufoni",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Brazilian professional skateboarder who is a five-time X Games gold medalist.",
+    "postType": "image",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Andrew Reynolds",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Influential street skateboarder known for his smooth style and frontside flips.",
+    "postType": "text",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  },
+  {
+    "name": "Bob Burnquist",
+    "avatar": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "bio": "Professional skateboarder known for his innovative vert skateboarding and for being the first to land a fakie 900.",
+    "postType": "image",
+    "postImage": "https://www.usatoday.com/gcdn/presto/2019/06/27/USAT/7e61c568-2014-4e4d-ba3a-500b64e44e54-XXX_C07_ALF_CELEB_PICKS_24.JPG?width=1200&disable=upscale&format=pjpg&auto=webp",
+    "postImageCaption": "ayyyyyyye.",
+    "tweet": "I don't kick it I punt it I'm so wicked you want it? My tongue's just tired from lickin' my fingers and countin' up hundreds So I bought a money machine and it goes A tat-tit-trrrrrrr-at-tit-trrrrrt-at-tit-tit-Git-Dough"
+  }
+]

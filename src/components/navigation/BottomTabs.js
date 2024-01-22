@@ -16,13 +16,13 @@ export default function BottomTabs() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === 'home') {
             iconName = focused ? 'earth' : 'earth-outline';
-          } else if (route.name === 'Following') {
+          } else if (route.name === 'following') {
             iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'Chat') {
+          } else if (route.name === 'messages') {
             iconName = focused ? 'mail-open' : 'mail-outline';
-          } else if (route.name === 'Profile') {
+          } else if (route.name === 'profile') {
             iconName = focused ? 'person-circle' : 'person-circle-outline';
           }
 
@@ -33,10 +33,10 @@ export default function BottomTabs() {
         tabBarShowLabel: false
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Following" component={FollowingScreen} />
-      <Tab.Screen name="Chat" component={ChatScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="home" component={HomeScreen} />
+      <Tab.Screen name="following" component={FollowingScreen} />
+      <Tab.Screen name="messages" component={ChatScreen} />
+      <Tab.Screen name="profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }

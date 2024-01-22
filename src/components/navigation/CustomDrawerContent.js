@@ -1,21 +1,16 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import { DrawerTop, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '../../styles/StyledComponents';
-import { useState } from 'react';
+import { DrawerTop } from '../../styles/StyledComponents';
+import NotificationModal from '../common/NotificationModal'; // Adjust the path as necessary
+import { View } from 'react-native';
 
-// Custom Drawer Content to add footer items
-export default function CustomDrawerContent(props) {
-
-  const [modalVisible, setModalVisible] = useState(false)
-
+const CustomDrawerContent = (props) => {
   const filteredItems = props.state.routes.filter(
-    route => route.name !== 'Profile' && route.name !== 'Settings'
+    route => route.name !== 'profile' && route.name !== 'settings'
   );
 
   return (
     <DrawerContentScrollView {...props}>
-
       <DrawerTop>
         {filteredItems.map(route => (
           <DrawerItem
@@ -24,37 +19,15 @@ export default function CustomDrawerContent(props) {
             onPress={() => props.navigation.navigate(route.name)}
           />
         ))}
-        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-          <Ionicons name="notifications" size={32} color="black" />
-        </TouchableOpacity>
+        <NotificationModal />
       </DrawerTop>
 
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <DrawerItem label="account" onPress={() => props.navigation.navigate('Account')} />
-        <DrawerItem label="settings" onPress={() => props.navigation.navigate('Settings')} />
+      <View>
+        <DrawerItem label="account" onPress={() => props.navigation.navigate('account')} />
+        <DrawerItem label="settings" onPress={() => props.navigation.navigate('settings')} />
       </View>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <ModalOverlay>
-          <ModalContent>
-            <ModalHeader>
-              <Text>ACTIVITY</Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Ionicons name="close" size={32}/>
-              </TouchableOpacity>
-            </ModalHeader>
-            <ModalBody>
-            </ModalBody>
-            <ModalFooter>
-            </ModalFooter>
-          </ModalContent>
-        </ModalOverlay>
-      </Modal>
-      
     </DrawerContentScrollView>
   );
-}
+};
+
+export default CustomDrawerContent;

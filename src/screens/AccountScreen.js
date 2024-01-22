@@ -75,6 +75,7 @@ const TransactionAmount = styled.Text`
 `;
 
 const AccountScreen = () => {
+  
   const handleAddFunds = () => {
     // Handle the add funds logic
     console.log('Add funds pressed');

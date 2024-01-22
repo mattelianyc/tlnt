@@ -1,66 +1,15 @@
 // Import necessary components
-import React, { useEffect, useState } from 'react';
-import { ScrollView, StatusBar, TouchableOpacity } from 'react-native';
-import styled from 'styled-components/native';
-import AnnouncementCard from '../components/AnnouncementCard';
+import React, { useState } from 'react';
+import { ScrollView, StatusBar } from 'react-native';
+import AnnouncementCard from '../components/common/AnnouncementCard';
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
+import VideoList from '../components/common/VideoList'; // Import the new VideoList component
 import { connect } from 'react-redux';
 import { Container, SectionHeader, SectionHeaderText } from '../styles/StyledComponents';
 
-const HorizontalList = styled.ScrollView.attrs({
-  horizontal: true,
-  showsHorizontalScrollIndicator: false,
-})`
-  padding: 10px;
-`;
-
-const VideoInfo = styled.View`
-  width: 240px; 
-  align-items: left;
-  margin-right: 30px;
-  
-`;
-
-const VideoTitle = styled.Text`
-  font-size: 14px;
-  margin-top:5px;
-  font-weight: bold;
-  color: #000;
-  width: 100%;
-  overflow: hidden;
-`;
-
-const VideoDescription = styled.Text`
-  font-size: 12px;
-  color: #666;
-  width: 100%;
-  overflow: hidden;
-`;
-
-const VideoThumbnail = styled.Image`
-  width: 260px;
-  height: 180px;
-  margin-right: 10px;
-  border-radius: 8px;
-`;
-
-const VideoItem = ({ video }) => (
-  <TouchableOpacity onPress={() => {/* Handle Video Press */}}>
-    <VideoInfo>
-      <VideoThumbnail source={{ uri: video.thumbnail }} />
-      <VideoTitle numberOfLines={1}>{video.title}</VideoTitle>
-      <VideoDescription numberOfLines={1}>{video.description}</VideoDescription>
-    </VideoInfo>
-  </TouchableOpacity>
-);
-
-// HomeScreen component
 const HomeScreen = ({ navigation, searchVisible, videos }) => {
-  
-  // const dispatch = useDispatch();
-  // const [videos, setVideos] = useState([]);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
-    
+  
   const handleAnnouncementPress = () => {
     // Handle announcement button press logic
   };
@@ -70,48 +19,46 @@ const HomeScreen = ({ navigation, searchVisible, videos }) => {
   };
 
   // Example data for each section
-  const newVideos = videos.slice(0, 5);  // Assuming 'videos' array has the data
+  const newVideos = videos.slice(0, 5); 
   const mostPopular = videos.slice(5, 10);
-  const streetVideos = videos.slice(10, 21);
+  const streetVideos = videos.slice(10, 15);
 
   return (
     <Container>
       <StatusBar style="auto" />
-      {
-        searchVisible ? (
-          <GlobalSearchList videos={videos} />
-        ) : (
-          <ScrollView>
-            {showAnnouncement && (
-              <AnnouncementCard
-                text="Subscribe for full access!"
-                buttonText="Learn More"
-                onButtonPress={handleAnnouncementPress}
-                onClose={closeAnnouncement}
-              />
-            )}
-            {/* New Videos Section */}
-            <SectionHeader><SectionHeaderText>New Arrivals</SectionHeaderText></SectionHeader>
-            <HorizontalList>
-              {newVideos.map((video, index) => <VideoItem key={index} video={video} />)}
-            </HorizontalList>
-    
-            {/* Most Popular Section */}
-            <SectionHeader><SectionHeaderText>Most Popular</SectionHeaderText></SectionHeader>
-            <HorizontalList>
-              {mostPopular.map((video, index) => <VideoItem key={index} video={video} />)}
-            </HorizontalList>
-    
-            {/* Street Section */}
-            <SectionHeader><SectionHeaderText>Street</SectionHeaderText></SectionHeader>
-            <HorizontalList>
-              {streetVideos.map((video, index) => <VideoItem key={index} video={video} />)}
-            </HorizontalList>
-          </ScrollView>
-        )
-      }
-    </Container>
+      {searchVisible ? (
+        <GlobalSearchList videos={videos} />
+      ) : (
+        <ScrollView>
+          {showAnnouncement && (
+            <AnnouncementCard
+              text="Subscribe for full access!"
+              buttonText="Learn More"
+              onButtonPress={handleAnnouncementPress}
+              onClose={closeAnnouncement}
+            />
+          )}
 
+          {/* New Videos Section */}
+          <SectionHeader>
+            <SectionHeaderText>New Arrivals</SectionHeaderText>
+          </SectionHeader>
+          <VideoList videos={newVideos} layout='horizontal' />
+
+          {/* Most Popular Section */}
+          <SectionHeader>
+            <SectionHeaderText>Most Popular</SectionHeaderText>
+          </SectionHeader>
+          <VideoList videos={mostPopular} layout='horizontal' />
+
+          {/* Street Section */}
+          <SectionHeader>
+            <SectionHeaderText>Street</SectionHeaderText>
+          </SectionHeader>
+          <VideoList videos={streetVideos} layout='horizontal' />
+        </ScrollView>
+      )}
+    </Container>
   );
 };
 

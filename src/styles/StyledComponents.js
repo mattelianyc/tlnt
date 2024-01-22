@@ -6,6 +6,7 @@ export const Container = styled.View`
   flex: 1;
   background-color: #fff;
 `;
+
 export const TitleText = styled.Text`
   font-family: 'Spartan';
   font-size: 24px;
@@ -13,20 +14,11 @@ export const TitleText = styled.Text`
   color: black;
 `;
 
-export const HeaderContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  paddingTop: 50px;
-  min-height: 100px;
-`;
-
 export const SectionHeader = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 15px 15px 0 10px;
 `;
 
 export const SectionHeaderText = styled.Text`
@@ -37,26 +29,6 @@ export const SectionHeaderText = styled.Text`
 export const SearchWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-`;
-
-export const TopNavLeft = styled.View`
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  justify-content:space-between;
-`;
-  
-export const TopNavMiddle = styled.View`
-  flex: 10;
-  align-items: center;
-  justify-content: center;
-`;
-  
-export const TopNavRight = styled.View`
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
 `;
 
 export const DrawerTop = styled.View`
@@ -103,4 +75,22 @@ export const ModalFooter = styled.View`
   border-top-color: #eee;
   align-items: center;
   justify-content: center;
+`;
+
+export const ListItem = styled.TouchableOpacity`
+  padding: 15px;
+  border-bottom-width: 1px;
+  border-color: #eee;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ListItemText = styled.Text`
+  font-size: 16px;
+  color: #000;
+`;
+
+export const ListItemIcon = styled.View`
+  /* Additional styling if needed */
 `;
