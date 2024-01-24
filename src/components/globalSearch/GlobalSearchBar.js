@@ -13,8 +13,7 @@ const GlobalSearchBar = ({ dispatchSetSearchQuery }) => {
     <SearchBarContainer>
       <SearchInput
         onChangeText={handleSearchChange}
-        placeholder="Start typing to search content..."
-        // Add any additional props like style here
+        placeholder="Start typing to search..."
         />
     </SearchBarContainer>
   );
@@ -31,7 +30,6 @@ const SearchBarContainer = styled.View`
 `;
 
 const SearchInput = styled.TextInput`
-  font-family: 'Spartan';
   background-color: #fff;
   border-radius: 5px;
   padding: 15px 10px 15px 10px;

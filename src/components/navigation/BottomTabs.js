@@ -4,10 +4,15 @@ import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "../../screens/ChatScreen";
 import FollowingScreen from "../../screens/FollowingScreen";
 import ProfileScreen from '../../screens/ProfileScreen';
+import { useDispatch } from 'react-redux';
+import { setSearchVisible } from '../../redux/actions';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
+  
+  const dispatch = useDispatch();
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -28,8 +33,11 @@ export default function BottomTabs() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#ff9999',
-        tabBarInactiveTintColor: 'black',
+        tabBarActiveTintColor: '#ff9999', // Active icon color
+        tabBarInactiveTintColor: 'white', // Inactive icon color
+        tabBarStyle: { 
+          backgroundColor: 'black' // Tab bar background color
+        },
         tabBarShowLabel: false
       })}
     >

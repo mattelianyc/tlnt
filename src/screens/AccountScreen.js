@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar, TouchableOpacity, FlatList, Text, View } from 'react-native';
 import styled from 'styled-components/native';
+import { GlobalText } from '../styles/StyledComponents';
 
 // Mock data for balance and recent transactions
 const accountData = {
@@ -20,8 +21,8 @@ const accountData = {
 // Styled components
 const Container = styled.View`
   flex: 1;
-  background-color: #fff;
-  padding: 20px;
+  background-color: black;
+
 `;
 
 const BalanceSection = styled.View`
@@ -29,7 +30,7 @@ const BalanceSection = styled.View`
   margin-bottom: 20px;
 `;
 
-const BalanceText = styled.Text`
+const BalanceText = styled(GlobalText)`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 5px;
@@ -41,7 +42,7 @@ const AddFundsButton = styled.TouchableOpacity`
   border-radius: 5px;
 `;
 
-const AddFundsButtonText = styled.Text`
+const AddFundsButtonText = styled(GlobalText)`
   color: white;
   font-size: 16px;
 `;
@@ -50,9 +51,8 @@ const TransactionDetails = styled.View`
 flex: 1;
 `;
 
-const TransactionDate = styled.Text`
+const TransactionDate = styled(GlobalText)`
 font-size: 14px;
-color: #aaa;
 margin-left: 10px;
 `;
 
@@ -65,11 +65,11 @@ border-bottom-width: 1px;
 border-color: #eee;
 `;
 
-const TransactionDescription = styled.Text`
+const TransactionDescription = styled(GlobalText)`
   font-size: 16px;
 `;
 
-const TransactionAmount = styled.Text`
+const TransactionAmount = styled(GlobalText)`
   font-size: 16px;
   color: ${props => props.amount >= 0 ? 'green' : 'red'};
 `;

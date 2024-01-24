@@ -2,6 +2,7 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
+import { GlobalText } from '../../styles/StyledComponents';
 
 const Card = styled.View`
   background-color: #f0f0f0;
@@ -11,7 +12,7 @@ const Card = styled.View`
   align-items: center;
 `;
 
-const CardText = styled.Text`
+const CardText = styled(GlobalText)`
   font-size: 16px;
   color: #333;
   margin-bottom: 10px;
@@ -23,7 +24,7 @@ const CardButton = styled.TouchableOpacity`
   border-radius: 5px;
 `;
 
-const CardButtonText = styled.Text`
+const CardButtonText = styled(GlobalText)`
   color: white;
   font-size: 16px;
 `;

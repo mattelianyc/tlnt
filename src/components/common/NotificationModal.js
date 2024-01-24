@@ -9,7 +9,7 @@ const NotificationModal = () => {
   return (
     <>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Ionicons name="notifications" size={32} color="black" />
+        <Ionicons name="notifications" size={24} color="white" />
       </TouchableOpacity>
 
       <Modal

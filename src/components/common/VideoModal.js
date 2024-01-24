@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import { Ionicons } from '@expo/vector-icons';
 import VideoPlayer from './VideoPlayer';
 import bacon from '../../../assets/videos/bacon.mp4'
+import { ContentContainer, GlobalText, SectionHeaderText, Tab, TabContainer, TabText } from '../../styles/StyledComponents';
+import VideoList from './VideoList';
 
 // Styled Components
 const ModalContainer = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: black;
   paddingTop: 50px;
 `;
 
@@ -16,6 +18,13 @@ const ModalHeader = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding: 10px;
+`;
+
+const ModalHeaderText = styled(GlobalText)`
+  font-size: 18px;
+  max-width: 250px;
+  text-align: center;
+  font-weight: bold;
 `;
 
 const ActionButton = styled.TouchableOpacity`
@@ -27,38 +36,16 @@ const ActionButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const ActionButtonText = styled.Text`
-  color: white;
+const ActionButtonText = styled(GlobalText)`
+  color: black;
   font-size: 16px;
 `;
 
-const TabContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 10px;
-  background-color: ${props => props.isActive ? 'green' : 'white'};
-  `;
+const VideoModal = ({ isVisible, video, relatedVideos, onClose }) => {
   
-const Tab = styled.TouchableOpacity`
-`;
-  
-const TabText = styled.Text`
-  color: ${props => props.isActive ? 'black' : '#aaa'};
-  text-decoration: ${props => props.isActive ? 'underline' : 'none'};
-`;
+  const [selectedTab, setSelectedTab] = useState('overview'); 
 
-const InfoCard = styled.View`
-  padding: 50px 10px 50px 10px;
-  margin: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-`;
-
-const VideoModal = ({ isVisible, video, onClose }) => {
-  
-  const [activeTab, setActiveTab] = useState('overview'); // Add this line
-
-  if (!video) return null; // Render nothing if no video is selected
+  if (!video) return null; 
 
   return (
     <Modal
@@ -70,11 +57,11 @@ const VideoModal = ({ isVisible, video, onClose }) => {
         <ModalContainer>
           <ModalHeader>
             <TouchableOpacity onPress={onClose}>
-              <Ionicons name="close" size={24} />
+              <Ionicons name="close" size={24} color={'white'} />
             </TouchableOpacity>
-            <Text>{video.title}</Text>
+            <ModalHeaderText>{video.title}</ModalHeaderText>
             <TouchableOpacity>
-              <Ionicons name="share-social" size={24} />
+              <Ionicons name="share-social" size={24} color={'white'}/>
             </TouchableOpacity>
           </ModalHeader>
 
@@ -85,26 +72,26 @@ const VideoModal = ({ isVisible, video, onClose }) => {
           </ActionButton>
           {/* Additional buttons and tabs */}
           <TabContainer>
-            <Tab onPress={() => setActiveTab('overview')}>
-              <TabText isActive={activeTab === 'overview'}>Overview</TabText>
-            </Tab>
-            <Tab onPress={() => setActiveTab('related')}>
-              <TabText isActive={activeTab === 'related'}>Related</TabText>
-            </Tab>
+            {['overview', 'related'].map((tab, index) => (
+              <Tab
+                key={index}
+                onPress={() => setSelectedTab(tab)}
+                isActive={selectedTab === tab}
+              >
+                <TabText isActive={selectedTab === tab}>{tab.toUpperCase()}</TabText>
+              </Tab>
+            ))}
           </TabContainer>
-          {activeTab === 'overview' && (
-            <InfoCard>
-              <Text>{video.title}</Text>
-              <Text>{video.description}</Text>
-              <Text>{video.metadata}</Text>
-            </InfoCard>
-          )}
-          {activeTab === 'related' && (
-            <InfoCard>
-              <Text>i like big butts</Text>
-              <Text>and i can not lie</Text>
-            </InfoCard>
-          )}
+          <ContentContainer>
+            {/* Render content based on the selected tab */}
+            {selectedTab === 'overview' && (
+            <>
+              <GlobalText>{video.description}</GlobalText>
+              <GlobalText>{video.metadata}</GlobalText>
+            </>
+            )}
+            {selectedTab === 'related' && (<VideoList videos={relatedVideos}/>)}
+          </ContentContainer>
         </ModalContainer>
       </Modal>
   );

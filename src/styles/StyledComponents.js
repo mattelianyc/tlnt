@@ -2,13 +2,21 @@
 import { Platform } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
+export const LogoText = styled.Text`
+  font-family: 'Moirai';
+  font-size: 36px;
+`
+
+export const GlobalText = styled.Text`
+  color: white;
+`
+
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: black;
 `;
 
-export const TitleText = styled.Text`
-  font-family: 'Spartan';
+export const TitleText = styled(GlobalText)`
   font-size: 24px;
   font-weight: bold;
   color: black;
@@ -21,7 +29,7 @@ export const SectionHeader = styled.View`
   padding: 15px 15px 0 10px;
 `;
 
-export const SectionHeaderText = styled.Text`
+export const SectionHeaderText = styled(GlobalText)`
   font-size: 24px;
   font-weight: bold;
 `;
@@ -86,11 +94,31 @@ export const ListItem = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const ListItemText = styled.Text`
+export const ListItemText = styled(GlobalText)`
   font-size: 16px;
   color: #000;
 `;
 
 export const ListItemIcon = styled.View`
   /* Additional styling if needed */
+`;
+
+// tab shit
+export const TabContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #222;
+`;
+export const Tab = styled.TouchableOpacity`
+  padding: 10px;
+  border-bottom-width: ${props => props.isActive ? '2px' : '0'};
+  border-bottom-color: #ff9999;
+`
+export const TabText = styled(GlobalText)`
+  color: ${props => props.isActive ? '#fff' : '#aaa'};
+  font-size: 16px;
+`
+export const ContentContainer = styled.View`
+  padding: 10px 10px 40px 10px;
+  height: 40%;
 `;

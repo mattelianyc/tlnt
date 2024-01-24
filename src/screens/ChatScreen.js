@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
 import threads from '../api/mock/threads.json'
+import { GlobalText } from '../styles/StyledComponents';
 
 const ChatScreen = ({ navigation, searchVisible, videos }) => {
   
@@ -43,13 +44,7 @@ export default connect(mapStateToProps)(ChatScreen);
 
 const Container = styled.View`
   flex: 1;
-  background-color: #fff;
-`;
-
-const TitleText = styled.Text`
-  font-size: 24px;
-  font-weight: bold;
-  padding: 20px;
+  background-color: black;
 `;
 
 const ThreadItem = styled.TouchableOpacity`
@@ -67,17 +62,17 @@ const Avatar = styled.Image`
   margin-right: 10px;
 `;
 
-const ThreadName = styled.Text`
+const ThreadName = styled(GlobalText)`
   font-size: 18px;
   font-weight: bold;
 `;
 
-const ThreadPreview = styled.Text`
+const ThreadPreview = styled(GlobalText)`
   font-size: 14px;
-  color: #666;
+  color: white;
 `;
 
-const ThreadTime = styled.Text`
+const ThreadTime = styled(GlobalText)`
   font-size: 14px;
   color: #aaa;
   position: absolute;

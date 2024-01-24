@@ -1,33 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { setSearchVisible } from '../../redux/actions';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, Text } from 'react-native';
 import GlobalSearchBar from '../globalSearch/GlobalSearchBar';
 import styled from 'styled-components';
-import { useRoute } from '@react-navigation/native';
 import { useActiveRouteName } from '../../hooks/useActiveRouteName';
 
-const CustomNavbar = ({ navigation, searchVisible, dispatchSetSearchVisible, routeName }) => {
-  
+const CustomNavbar = ({ navigation, searchVisible, dispatchSetSearchVisible }) => {
+    
   const activeRouteName = useActiveRouteName();
+  const [previousRouteName, setPreviousRouteName] = useState(activeRouteName);
+
+  useEffect(() => {
+    // Check if the route has changed
+    if (activeRouteName !== previousRouteName) {
+      if (searchVisible) {
+        // Close the search bar if it's open
+        dispatchSetSearchVisible(false);
+      }
+      // Update the previous route name
+      setPreviousRouteName(activeRouteName);
+    }
+  }, [activeRouteName, previousRouteName, searchVisible, dispatchSetSearchVisible]);
 
   const toggleSearch = () => {
     dispatchSetSearchVisible(!searchVisible);
   };
 
-  // useEffect(() => alert(`route: ${route.name}`), [route.name])
-
   return (
     <NavContainer>
       <TopNavLeft>
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Ionicons name="menu" size={24} color="black" />
+          <Ionicons name="menu" size={24} color="white" />
         </TouchableOpacity>
       </TopNavLeft>
       <TopNavMiddle>
         {!searchVisible && (
-          <Text style={{ color: 'black', fontSize: 24 }}>
+          <Text style={{ color: 'white', fontFamily: 'Moirai', fontSize: 32 }}>
             {activeRouteName == `home` ? 'ollie.' : activeRouteName}
           </Text>
         )}
@@ -36,8 +46,8 @@ const CustomNavbar = ({ navigation, searchVisible, dispatchSetSearchVisible, rou
       <TopNavRight>
         <TouchableOpacity onPress={toggleSearch}>
           {searchVisible ? 
-            <Ionicons name="close" size={24} color="black" /> : 
-              <Ionicons name="search" size={24} color="black" />
+            <Ionicons name="close" size={24} color="white" /> : 
+              <Ionicons name="search" size={24} color="white" />
           }
         </TouchableOpacity>
       </TopNavRight>
@@ -65,6 +75,7 @@ const NavContainer = styled.View`
   paddingTop: 50px;
   paddingBottom: 5px;
   min-height: 105px;
+  background-color: black;
 `;
 
 const TopNavLeft = styled.View`

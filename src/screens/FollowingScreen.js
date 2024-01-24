@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
 import skaters from '../api/mock/skaters.json';
+import { GlobalText } from '../styles/StyledComponents';
 
 const FollowingScreen = ({ navigation, searchVisible, videos }) => {
   return (
@@ -55,13 +56,13 @@ export default connect(mapStateToProps)(FollowingScreen);
 
 const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: black;
 `;
 
 const PostCard = styled.View`
   background-color: #f9f9f9;
   margin: 8px;
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
 `;
 
@@ -89,11 +90,11 @@ const PostActions = styled.View`
   padding: 8px;
 `;
 
-const PostDescription = styled.Text`
+const PostDescription = styled(GlobalText)`
   padding: 8px;
 `;
 
-const TweetText = styled.Text`
+const TweetText = styled(GlobalText)`
   padding: 8px;
   color: #333;
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Container, ListItem, ListItemText, ListItemIcon } from '../styles/StyledComponents';
+import { Container, ListItem, ListItemText, ListItemIcon, GlobalText } from '../styles/StyledComponents';
 
 // Define the list of settings items
 const settingsItems = [
@@ -26,9 +26,9 @@ export default function SettingsScreen() {
 
   const renderItem = ({ item }) => (
     <ListItem onPress={() => handleItemPress(item.key)}>
-      <ListItemText>{item.title}</ListItemText>
+      <GlobalText>{item.title}</GlobalText>
       <ListItemIcon>
-        <Ionicons name="chevron-forward-outline" size={24} color="black" />
+        <Ionicons name="chevron-forward-outline" size={24} color="white" />
       </ListItemIcon>
     </ListItem>
   );

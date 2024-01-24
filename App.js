@@ -24,7 +24,8 @@ export default function App() {
     async function loadFonts() {
       await Font.loadAsync({
         // Replace 'YourFontName' with the name you'll use to reference the font in your styles.
-        'Spartan': require('./assets/fonts/LeagueSpartan-VariableFont_wght.ttf'), // Replace with the path to your font file.
+        'Moirai': require('./assets/fonts/nyc/nyc1970.otf'), // Replace with the path to your font file.
+        'nyc': require('./assets/fonts/morai/MoiraiOne-Regular.ttf'), // Replace with the path to your font file.
         // Add additional fonts here as needed.
       });
       setFontsLoaded(true);
@@ -57,8 +58,7 @@ export default function App() {
           })}
           drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
-          <Drawer.Screen name="0LL1E" component={BottomTabs} />
-          <Drawer.Screen name="profile" component={ProfileScreen} />
+          <Drawer.Screen name="ollie" component={BottomTabs} />
           <Drawer.Screen name="settings" component={SettingsScreen} />
           <Drawer.Screen name="account" component={AccountScreen} />
         </Drawer.Navigator>

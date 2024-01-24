@@ -3,9 +3,10 @@ import styled from 'styled-components/native';
 import { ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import VideoModal from './VideoModal';
+import { GlobalText } from '../../styles/StyledComponents';
+
 
 const VideoList = ({ videos, layout }) => {
-
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
@@ -14,9 +15,7 @@ const VideoList = ({ videos, layout }) => {
     setModalVisible(true);
   };
 
-
   const renderItem = (video) => (
-    <>
     <TouchableOpacity key={`video-thumb-${video.id}`} onPress={() => openModal(video)}>
       {layout === 'horizontal' ? (
         <HorizontalItem>
@@ -38,28 +37,27 @@ const VideoList = ({ videos, layout }) => {
         </ListItem>
       )}
     </TouchableOpacity>
-    <VideoModal
-      key={`video-modal-${video.id}`}
-      isVisible={modalVisible}
-      video={selectedVideo}
-      onClose={() => setModalVisible(false)}
-    />
-    </>
   );
 
   return (
-    layout === 'horizontal' ? (
-      <HorizontalList>
-        {videos.map(video => renderItem(video))}
-      </HorizontalList>
-    ) : (
-      <ScrollView>
-        {videos.map(video => renderItem(video))}
-      </ScrollView>
-    )
-    
-    
-    );
+    <>
+      {layout === 'horizontal' ? (
+        <HorizontalList>
+          {videos.map(video => renderItem(video))}
+        </HorizontalList>
+      ) : (
+        <ScrollView>
+          {videos.map(video => renderItem(video))}
+        </ScrollView>
+      )}
+      <VideoModal
+        isVisible={modalVisible}
+        video={selectedVideo}
+        relatedVideos={videos}
+        onClose={() => setModalVisible(false)}
+      />
+    </>
+  );
 };
 
 export default VideoList;
@@ -97,18 +95,18 @@ const Content = styled.View`
   flex: 1;
 `;
 
-const ItemTitle = styled.Text`
+const ItemTitle = styled(GlobalText)`
   font-size: 16px;
   font-weight: bold;
-  color: #000;
+  color: white;
 `;
 
-const Description = styled.Text`
+const Description = styled(GlobalText)`
   font-size: 13px;
-  color: #666;
+  color: white;
 `;
 
-const Metadata = styled.Text`
+const Metadata = styled(GlobalText)`
   font-size: 12px;
   color: #aaa;
 `;

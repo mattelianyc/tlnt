@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components/native";
 import { connect } from 'react-redux';
 import VideoList from './../common/VideoList'; // Import the VideoList component
+import { GlobalText } from '../../styles/StyledComponents';
 
 const GlobalSearchList = ({ videos, searchQuery }) => {
   const filteredVideos = searchQuery
@@ -35,7 +36,7 @@ const GlobalSearchListContainer = styled.View`
   flex: 1;
 `;
 
-const EmptySearchMessage = styled.Text`
+const EmptySearchMessage = styled(GlobalText)`
   font-size: 16px;
   color: #666;
   text-align: center;
