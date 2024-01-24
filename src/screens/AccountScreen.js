@@ -1,11 +1,11 @@
 import React from 'react';
-import { StatusBar, TouchableOpacity, FlatList, Text, View } from 'react-native';
+import { StatusBar, TouchableOpacity, View, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { GlobalText } from '../styles/StyledComponents';
+import TransactionList from '../components/common/TransactionList'; 
 
-// Mock data for balance and recent transactions
 const accountData = {
-  balance: 120.50, // USD
+  balance: 120.50,
   transactions: [
     { id: 't1', description: 'Personalized Training Session', amount: -30.00, date: '2023-01-15' },
     { id: 't2', description: 'Exclusive Video from Tony Hawk', amount: -20.00, date: '2023-01-12' },
@@ -18,11 +18,31 @@ const accountData = {
   ],
 };
 
-// Styled components
+const AccountScreen = () => {
+  
+  const handleAddFunds = () => {
+    console.log('Add funds pressed');
+  };
+  
+  return (
+    <Container>
+      <StatusBar style="auto" />
+      <BalanceSection>
+        <BalanceText>Balance: ${accountData.balance} USD</BalanceText>
+        <AddFundsButton onPress={handleAddFunds}>
+          <AddFundsButtonText>Add Funds</AddFundsButtonText>
+        </AddFundsButton>
+      </BalanceSection>
+      <TransactionList transactions={accountData.transactions} />
+    </Container>
+  );
+};
+
+export default AccountScreen;
+
 const Container = styled.View`
   flex: 1;
   background-color: black;
-
 `;
 
 const BalanceSection = styled.View`
@@ -46,69 +66,3 @@ const AddFundsButtonText = styled(GlobalText)`
   color: white;
   font-size: 16px;
 `;
-
-const TransactionDetails = styled.View`
-flex: 1;
-`;
-
-const TransactionDate = styled(GlobalText)`
-font-size: 14px;
-margin-left: 10px;
-`;
-
-const TransactionRow = styled.View`
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
-padding: 15px;
-border-bottom-width: 1px;
-border-color: #eee;
-`;
-
-const TransactionDescription = styled(GlobalText)`
-  font-size: 16px;
-`;
-
-const TransactionAmount = styled(GlobalText)`
-  font-size: 16px;
-  color: ${props => props.amount >= 0 ? 'green' : 'red'};
-`;
-
-const AccountScreen = () => {
-  
-  const handleAddFunds = () => {
-    // Handle the add funds logic
-    console.log('Add funds pressed');
-  };
-
-  const renderTransaction = ({ item }) => (
-    <TransactionRow>
-      <TransactionDetails>
-        <TransactionDescription>{item.description}</TransactionDescription>
-        <TransactionAmount amount={item.amount}>
-          {item.amount >= 0 ? `+${item.amount}` : item.amount} USD
-        </TransactionAmount>
-      </TransactionDetails>
-      <TransactionDate>{item.date}</TransactionDate>
-    </TransactionRow>
-  );
-
-  return (
-    <Container>
-      <StatusBar style="auto" />
-      <BalanceSection>
-        <BalanceText>Balance: ${accountData.balance} USD</BalanceText>
-        <AddFundsButton onPress={handleAddFunds}>
-          <AddFundsButtonText>Add Funds</AddFundsButtonText>
-        </AddFundsButton>
-      </BalanceSection>
-      <FlatList
-        data={accountData.transactions}
-        renderItem={renderTransaction}
-        keyExtractor={item => item.id}
-      />
-    </Container>
-  );
-};
-
-export default AccountScreen;

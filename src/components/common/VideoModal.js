@@ -6,6 +6,8 @@ import VideoPlayer from './VideoPlayer';
 import bacon from '../../../assets/videos/bacon.mp4'
 import { ContentContainer, GlobalText, SectionHeaderText, Tab, TabContainer, TabText } from '../../styles/StyledComponents';
 import VideoList from './VideoList';
+import share from '../../utils/share';
+import useShareContent from '../../hooks/useShareContent';
 
 // Styled Components
 const ModalContainer = styled.View`
@@ -43,9 +45,21 @@ const ActionButtonText = styled(GlobalText)`
 
 const VideoModal = ({ isVisible, video, relatedVideos, onClose }) => {
   
+  const shareContent = useShareContent(); // Use the custom hook
+  
   const [selectedTab, setSelectedTab] = useState('overview'); 
 
   if (!video) return null; 
+
+  const handleShare = () => {
+    if (video) {
+      shareContent({
+        title: video.title,
+        message: video.description,
+        url: video.thumbnail
+      });
+    }
+  };  
 
   return (
     <Modal
@@ -60,7 +74,7 @@ const VideoModal = ({ isVisible, video, relatedVideos, onClose }) => {
               <Ionicons name="close" size={24} color={'white'} />
             </TouchableOpacity>
             <ModalHeaderText>{video.title}</ModalHeaderText>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleShare}>
               <Ionicons name="share-social" size={24} color={'white'}/>
             </TouchableOpacity>
           </ModalHeader>

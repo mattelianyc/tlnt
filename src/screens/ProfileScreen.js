@@ -53,9 +53,9 @@ export default connect(mapStateToProps)(ProfileScreen);
 
 // Assuming you have a user object with fan profile data
 const user = {
-  name: 'Fan Username',
-  handle: 'fanhandle123',
-  avatar: 'https://placekitten.com/200/200', // Placeholder image
+  name: 'Pachenga',
+  handle: 'luisguzman',
+  avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS_k25pGXnKgnlojt9vhAGw3WUMjkAkEnYK4wT2TXSwrSFAKj5mXY1tSTM4P6Z9sZ36co&usqp=CAU', // Placeholder image
   balance: 120.50,
   following: ['Tony Hawk', 'Nyjah Huston', 'Leticia Bufoni'], // Example following
 };
