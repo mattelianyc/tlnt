@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Video } from 'expo-av';
+import { ActivityIndicator, View } from 'react-native';
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
 const VideoContainer = styled.View`
   flex: 1;
@@ -12,18 +14,18 @@ const StyledVideo = styled(Video)`
 `;
 
 const VideoPlayer = ({ videoUri }) => {
-  const videoRef = useRef(null);
-  const [status, setStatus] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <VideoContainer>
+      {isLoading && (<ActivityIndicator size="large" color="#ff9999" />)}
       <StyledVideo
-        ref={videoRef}
         source={videoUri}
         useNativeControls
         resizeMode="contain"
         isLooping
-        onPlaybackStatusUpdate={status => setStatus(status)}
+        onLoadStart={() => setIsLoading(true)}
+        onLoad={() => setIsLoading(false)}
       />
     </VideoContainer>
   );
