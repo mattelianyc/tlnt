@@ -45,9 +45,9 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         {isAuthenticated ? (
-          <AuthNavigator />
-        ) : (
           <MainNavigator />
+          ) : (
+          <AuthNavigator />
         )}
       </NavigationContainer>
     </Provider>

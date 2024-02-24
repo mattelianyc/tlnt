@@ -1,8 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducer'; // Your root reducer
+import searchReducer from './slices/searchSlice';
+import videosReducer from './slices/videosSlice';
+import skatersReducer from './slices/skatersSlice';
+import authReducer from './slices/authSlice';
 
-const store = configureStore({
-  reducer: rootReducer,
+export const store = configureStore({
+  reducer: {
+    search: searchReducer,
+    videos: videosReducer,
+    skaters: skatersReducer,
+    auth: authReducer,
+  },
 });
 
 export default store;

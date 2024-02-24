@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import axios from 'axios';
+import { loginUser } from '../redux/slices/authSlice'; // Adjust the import path as needed
 
 const Container = styled.View`
   flex: 1;
@@ -44,9 +45,11 @@ const LinkText = styled.Text`
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state.auth); // Assuming your store is setup correctly with the auth slice
 
-  const handleLogin = async () => {
-    // Implement login logic here, calling your API
+  const handleLogin = () => {
+    dispatch(loginUser({ email, password }));
   };
 
   return (
@@ -63,9 +66,14 @@ const LoginScreen = ({ navigation }) => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button onPress={handleLogin}>
-        <ButtonText>Sign In</ButtonText>
+      <Button onPress={handleLogin} disabled={authState.isLoading}>
+        <ButtonText>{authState.isLoading ? 'Logging In...' : 'Sign In'}</ButtonText>
       </Button>
+      {authState.error && (
+        <Text style={{ color: 'red', textAlign: 'center' }}>
+          {authState.error.message || 'An error occurred. Please try again.'}
+        </Text>
+      )}
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <LinkText>Don't have an account? Register</LinkText>
       </TouchableOpacity>
