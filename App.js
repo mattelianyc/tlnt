@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import CustomDrawerContent from './src/components/navigation/CustomDrawerContent';
-import SettingsScreen from './src/screens/SettingsScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
-import BottomTabs from './src/components/navigation/BottomTabs';
-import CustomNavbar from './src/components/navigation/CustomNavbar';
-import AccountScreen from './src/screens/AccountScreen';
 // import { GlobalStyle } from './src/styles/StyledComponents';
 import * as Font from 'expo-font';
 import { Text, View } from 'react-native';
 import { Provider, useDispatch } from 'react-redux';
 import store from './src/redux/store';
+import AuthNavigator from './src/components/navigation/AuthNavigator';
+import MainNavigator from './src/components/navigation/MainNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,8 +15,13 @@ export default function App() {
   
   const [searchVisible, setSearchVisible] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+
+    // Here, check authentication status, e.g., via AsyncStorage, Redux, etc.
+    // setIsAuthenticated(true or false based on the check);
+
     async function loadFonts() {
       await Font.loadAsync({
         // Replace 'YourFontName' with the name you'll use to reference the font in your styles.
@@ -37,31 +38,17 @@ export default function App() {
   }, []);
 
   if (!fontsLoaded) {
-    return <View><Text>Loading...</Text></View>; // Or some other loading content
+    return <View><Text>Loading...</Text></View>;
   }
   
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Drawer.Navigator
-          initialRouteName="Home"
-          screenOptions={({ route }) => ({
-            header: ({ navigation }) => (
-              <CustomNavbar
-                navigation={navigation}
-                searchVisible={searchVisible}
-                setSearchVisible={setSearchVisible}
-                routeName={route.name}
-              />
-            ),
-            headerTintColor: 'black',
-          })}
-          drawerContent={(props) => <CustomDrawerContent {...props} />}
-        >
-          <Drawer.Screen name="ollie" component={BottomTabs} />
-          <Drawer.Screen name="settings" component={SettingsScreen} />
-          <Drawer.Screen name="account" component={AccountScreen} />
-        </Drawer.Navigator>
+        {isAuthenticated ? (
+          <AuthNavigator />
+        ) : (
+          <MainNavigator />
+        )}
       </NavigationContainer>
     </Provider>
   );

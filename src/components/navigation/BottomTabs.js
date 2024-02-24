@@ -42,8 +42,8 @@ export default function BottomTabs() {
       })}
     >
       <Tab.Screen name="home" component={HomeScreen} />
-      <Tab.Screen name="following" component={FollowingScreen} />
-      <Tab.Screen name="messages" component={ChatScreen} />
+      {/* <Tab.Screen name="following" component={FollowingScreen} />
+      <Tab.Screen name="messages" component={ChatScreen} /> */}
       <Tab.Screen name="profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

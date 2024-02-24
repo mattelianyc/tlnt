@@ -6,7 +6,6 @@ import VideoPlayer from './VideoPlayer';
 import bacon from '../../../assets/videos/bacon.mp4'
 import { ContentContainer, GlobalText, SectionHeaderText, Tab, TabContainer, TabText } from '../../styles/StyledComponents';
 import VideoList from './VideoList';
-import share from '../../utils/share';
 import useShareContent from '../../hooks/useShareContent';
 
 // Styled Components
