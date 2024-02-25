@@ -1,55 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-// import { GlobalStyle } from './src/styles/StyledComponents';
-import * as Font from 'expo-font';
 import { Text, View } from 'react-native';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import store from './src/redux/store';
+import { checkAuthenticationStatus } from './src/redux/slices/authSlice'; // Adjust the import path as needed
 import AuthNavigator from './src/components/navigation/AuthNavigator';
 import MainNavigator from './src/components/navigation/MainNavigator';
+import * as Font from 'expo-font';
 
-const Drawer = createDrawerNavigator();
-
-export default function App() {
-  
-  const [searchVisible, setSearchVisible] = useState(false);
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+const AppContent = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [fontsLoaded, setFontsLoaded] = React.useState(false);
 
   useEffect(() => {
+    const loadResourcesAndDataAsync = async () => {
+      try {
+        // Load fonts
+        await Font.loadAsync({
+          'Moirai': require('./assets/fonts/nyc/nyc1970.otf'),
+          'nyc': require('./assets/fonts/morai/MoiraiOne-Regular.ttf'),
+        });
 
-    // Here, check authentication status, e.g., via AsyncStorage, Redux, etc.
-    // setIsAuthenticated(true or false based on the check);
+        // Dispatch checkAuthenticationStatus to update isAuthenticated based on AsyncStorage
+        dispatch(checkAuthenticationStatus());
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setFontsLoaded(true);
+      }
+    };
 
-    async function loadFonts() {
-      await Font.loadAsync({
-        // Replace 'YourFontName' with the name you'll use to reference the font in your styles.
-        'Moirai': require('./assets/fonts/nyc/nyc1970.otf'), // Replace with the path to your font file.
-        'nyc': require('./assets/fonts/morai/MoiraiOne-Regular.ttf'), // Replace with the path to your font file.
-        // Add additional fonts here as needed.
-      });
-      setFontsLoaded(true);
-    }
-    
-    loadFonts();
-  
-
-  }, []);
+    loadResourcesAndDataAsync();
+  }, [dispatch]);
 
   if (!fontsLoaded) {
     return <View><Text>Loading...</Text></View>;
   }
-  
+
+  return (
+    <NavigationContainer>
+      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+    </NavigationContainer>
+  );
+};
+
+export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        {isAuthenticated ? (
-          <MainNavigator />
-          ) : (
-          <AuthNavigator />
-        )}
-      </NavigationContainer>
+      <AppContent />
     </Provider>
   );
 }

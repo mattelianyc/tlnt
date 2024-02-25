@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
-import { loginUser } from '../redux/slices/authSlice'; // Adjust the import path as needed
+import { loginUser } from '../redux/slices/authSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const Container = styled.View`
   flex: 1;
@@ -42,36 +43,49 @@ const LinkText = styled.Text`
   text-align: center;
 `;
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
+const LoginScreen = () => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth); // Assuming your store is setup correctly with the auth slice
+  const navigation = useNavigation(); // Using the hook to access navigation
+  const { isAuthenticated, isLoading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigation.navigate('Home'); // Use 'replace' to prevent going back to login screen
+    }
+  }, [isAuthenticated, navigation]);
 
   const handleLogin = () => {
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ username, password }));
   };
 
   return (
     <Container>
       <Title>Login</Title>
       <Input
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+        autoCapitalize="none"
       />
       <Input
         placeholder="Password"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        autoCapitalize="none"
       />
-      <Button onPress={handleLogin} disabled={authState.isLoading}>
-        <ButtonText>{authState.isLoading ? 'Logging In...' : 'Sign In'}</ButtonText>
+      <Button onPress={handleLogin} disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <ButtonText>Sign In</ButtonText>
+        )}
       </Button>
-      {authState.error && (
+      {error && (
         <Text style={{ color: 'red', textAlign: 'center' }}>
-          {authState.error.message || 'An error occurred. Please try again.'}
+          {typeof error === 'string' ? error : error.message || 'An error occurred. Please try again.'}
         </Text>
       )}
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>

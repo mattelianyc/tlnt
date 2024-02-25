@@ -1,29 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { setSearchQuery } from '../../redux/actions';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux'; // Import useDispatch hook
+import { setSearchQuery } from '../../redux/slices/searchSlice'; // Adjust the import path as needed
+import styled from 'styled-components/native'; // Ensure you use 'styled-components/native' for React Native
 
-const GlobalSearchBar = ({ dispatchSetSearchQuery }) => {
-  
+const GlobalSearchBar = () => {
+  const dispatch = useDispatch();
+
   const handleSearchChange = (text) => {
-    dispatchSetSearchQuery(text);
+    dispatch(setSearchQuery(text));
   };
-  
+
   return (
     <SearchBarContainer>
       <SearchInput
         onChangeText={handleSearchChange}
         placeholder="Start typing to search..."
-        />
+      />
     </SearchBarContainer>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchSetSearchQuery: (query) => dispatch(setSearchQuery(query)),
-});
-
-export default connect(null, mapDispatchToProps)(GlobalSearchBar);
+export default GlobalSearchBar;
 
 const SearchBarContainer = styled.View`
   width: 95%;

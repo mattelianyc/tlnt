@@ -2,20 +2,24 @@ import React from 'react';
 import { StatusBar, FlatList, TouchableOpacity, Image, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux'; // Import useSelector hook
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
 import skaters from '../api/mock/skaters.json';
 import { GlobalText } from '../styles/StyledComponents';
 
-const FollowingScreen = ({ navigation, searchVisible, videos }) => {
+const FollowingScreen = ({ navigation }) => {
+  // Use useSelector hook to access the Redux state
+  const searchVisible = useSelector((state) => state.search.searchVisible); // Adjust path based on your state structure
+  const videos = useSelector((state) => state.videos.videos); // Adjust path based on your state structure
+
   return (
     <Container>
       <StatusBar style="auto" />
       {searchVisible ?
-        <GlobalSearchList videos={videos} /> : (
+        <GlobalSearchList /> : (
           <FlatList
             data={skaters}
-            key={item => `${item.id}`} // Ensure the key is a unique string
+            keyExtractor={(item) => `${item.id}`}
             renderItem={({ item }) => (
               <PostCard>
                 <PostHeader>
@@ -44,15 +48,10 @@ const FollowingScreen = ({ navigation, searchVisible, videos }) => {
         )
       }
     </Container>
-  )
+  );
 };
 
-const mapStateToProps = (state) => ({
-  searchVisible: state.searchVisible,
-  videos: state.videos,
-});
-
-export default connect(mapStateToProps)(FollowingScreen);
+export default FollowingScreen;
 
 const Container = styled.View`
   flex: 1;

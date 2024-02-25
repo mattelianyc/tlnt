@@ -1,41 +1,48 @@
 import React from 'react';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import { DrawerTop } from '../../styles/StyledComponents';
-import NotificationModal from '../common/NotificationModal'; // Adjust the path as necessary
-import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { performLogout } from '../../redux/slices/authSlice';
+import NotificationModal from '../common/NotificationModal';
 import styled from 'styled-components/native';
-
-
-const CustomDrawerItem = styled(DrawerItem)` 
-  labelStyle: {
-    color: 'white'
-  }
-`;
-
+import { Ionicons } from '@expo/vector-icons';
 
 const CustomDrawerContent = (props) => {
-  // const filteredItems = props.state.routes.filter(
-  //   route => route.name !== 'profile' && route.name !== '
-  // );
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(performLogout());
+    props.navigation.closeDrawer();
+  };
 
   return (
     <DrawerContentScrollView style={{backgroundColor: 'black'}} {...props}>
-      {/* <DrawerTop> */}
-        {props.state.routes.map(route => (
-          <CustomDrawerItem
-            key={route.key}
-            label={route.name}
-            onPress={() => props.navigation.navigate(route.name)}
-            labelStyle={{ color: 'white' }} 
-          />
-        ))}
-        <NotificationModal />
-      {/* </DrawerTop> */}
+      {props.state.routes.map((route) => (
+        <DrawerItem
+          key={route.key}
+          label={route.name.charAt(0).toUpperCase() + route.name.slice(1)}
+          onPress={() => {
+            // Close the drawer upon navigation
+            props.navigation.navigate(route.name);
+            setTimeout(() => {
+              props.navigation.closeDrawer();
+            }, 100);
+          }}
+          labelStyle={{ color: 'white' }}
+          icon={({ color, size }) => (
+            <Ionicons name={route.name === 'home' ? "home-outline" : "person-outline"} color={color} size={size} />
+          )}
+        />
+      ))}
+      <NotificationModal />
 
-      {/* <View>
-        <DrawerItem label="account" onPress={() => props.navigation.navigate('account')} />
-        <DrawerItem label="settings" onPress={() => props.navigation.navigate('settings')} />
-      </View> */}
+      <DrawerItem
+        label="Logout"
+        onPress={handleLogout}
+        labelStyle={{ color: 'white' }}
+        icon={({ color, size }) => (
+          <Ionicons name="log-out-outline" color={color} size={size} />
+        )}
+      />
     </DrawerContentScrollView>
   );
 };

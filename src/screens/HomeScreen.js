@@ -1,14 +1,16 @@
-// Import necessary components
 import React, { useState } from 'react';
 import { ScrollView, StatusBar } from 'react-native';
+import { useSelector } from 'react-redux'; // Import useSelector hook
 import AnnouncementCard from '../components/common/AnnouncementCard';
 import GlobalSearchList from '../components/globalSearch/GlobalSearchList';
-import VideoList from '../components/common/VideoList'; // Import the new VideoList component
-import { connect } from 'react-redux';
+import VideoList from '../components/common/VideoList';
 import { Container, SectionHeader, SectionHeaderText } from '../styles/StyledComponents';
 
-const HomeScreen = ({ navigation, searchVisible, videos }) => {
+const HomeScreen = ({ navigation }) => {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
+  // Use useSelector hook to access the Redux state
+  const searchVisible = useSelector((state) => state.search.searchVisible); // Adjust path based on your state structure
+  const videos = useSelector((state) => state.videos.videos); // Adjust path based on your state structure
   
   const handleAnnouncementPress = () => {
     // Handle announcement button press logic
@@ -27,7 +29,7 @@ const HomeScreen = ({ navigation, searchVisible, videos }) => {
     <Container>
       <StatusBar style="auto" />
       {searchVisible ? (
-        <GlobalSearchList videos={videos} />
+        <GlobalSearchList />
       ) : (
         <ScrollView>
           {showAnnouncement && (
@@ -62,9 +64,4 @@ const HomeScreen = ({ navigation, searchVisible, videos }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  searchVisible: state.searchVisible,
-  videos: state.videos,
-});
-
-export default connect(mapStateToProps)(HomeScreen);
+export default HomeScreen;

@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { setSearchVisible } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, Text } from 'react-native';
 import GlobalSearchBar from '../globalSearch/GlobalSearchBar';
-import styled from 'styled-components';
+import styled from 'styled-components/native'; // Ensure this import is correct for styled-components/native
 import { useActiveRouteName } from '../../hooks/useActiveRouteName';
+import { setSearchVisible } from '../../redux/slices/searchSlice'; // Adjust the import path as needed
 
-const CustomNavbar = ({ navigation, searchVisible, dispatchSetSearchVisible }) => {
-    
+const CustomNavbar = ({ navigation }) => {
   const activeRouteName = useActiveRouteName();
   const [previousRouteName, setPreviousRouteName] = useState(activeRouteName);
+  const searchVisible = useSelector((state) => state.search.searchVisible); // Assuming your store's structure
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Check if the route has changed
     if (activeRouteName !== previousRouteName) {
       if (searchVisible) {
-        // Close the search bar if it's open
-        dispatchSetSearchVisible(false);
+        dispatch(setSearchVisible(false));
       }
-      // Update the previous route name
       setPreviousRouteName(activeRouteName);
     }
-  }, [activeRouteName, previousRouteName, searchVisible, dispatchSetSearchVisible]);
+  }, [activeRouteName, previousRouteName, searchVisible, dispatch]);
 
   const toggleSearch = () => {
-    dispatchSetSearchVisible(!searchVisible);
+    dispatch(setSearchVisible(!searchVisible));
   };
 
   return (
@@ -38,7 +36,7 @@ const CustomNavbar = ({ navigation, searchVisible, dispatchSetSearchVisible }) =
       <TopNavMiddle>
         {!searchVisible && (
           <Text style={{ color: 'white', fontFamily: 'Moirai', fontSize: 32 }}>
-            {activeRouteName == `home` ? 'ollie.' : activeRouteName}
+            {activeRouteName === 'home' ? 'ollie.' : activeRouteName}
           </Text>
         )}
         {searchVisible && <GlobalSearchBar />}
@@ -47,7 +45,7 @@ const CustomNavbar = ({ navigation, searchVisible, dispatchSetSearchVisible }) =
         <TouchableOpacity onPress={toggleSearch}>
           {searchVisible ? 
             <Ionicons name="close" size={24} color="white" /> : 
-              <Ionicons name="search" size={24} color="white" />
+            <Ionicons name="search" size={24} color="white" />
           }
         </TouchableOpacity>
       </TopNavRight>
@@ -55,17 +53,7 @@ const CustomNavbar = ({ navigation, searchVisible, dispatchSetSearchVisible }) =
   );
 };
 
-// Add routeName to mapStateToProps if it's stored in Redux state
-const mapStateToProps = (state) => ({
-  searchVisible: state.searchVisible,
-  routeName: state.routeName, // Assuming the current route name is stored in Redux state
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatchSetSearchVisible: (isVisible) => dispatch(setSearchVisible(isVisible)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomNavbar);
+export default CustomNavbar;
 
 const NavContainer = styled.View`
   flex-direction: row;

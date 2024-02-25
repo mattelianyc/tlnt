@@ -1,32 +1,48 @@
+// src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios'; // Assuming axios for API calls
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define async thunks for login and registration
+console.log(' process  ', process.env.EXPO_PUBLIC_FURCK)
+
+// Async thunk to handle user login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue }) => {
     try {
-      console.log('email ', email)
-      console.log('pass ', password)
-      const response = await axios.post('http://127.0.0.1:3000/auth/login', { email, password });
-      console.log('res ', response)
-      // Save token to AsyncStorage or secure storage here if needed
-      return response.data; // Assuming this includes the user token or user data
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/login`, { username, password });
+      // Store token in AsyncStorage
+      await AsyncStorage.setItem('accessToken', response.data.access_token);
+      return response.data; // Assuming this includes the user token and other user data
     } catch (error) {
-      console.log('req err ', error)
       return rejectWithValue(error.response.data);
     }
   }
 );
 
+// Async thunk to handle user registration
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('YOUR_API_ENDPOINT/register', userData);
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/register`, userData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Async thunk to check authentication status based on the presence of an accessToken in AsyncStorage
+export const checkAuthenticationStatus = createAsyncThunk(
+  'auth/checkAuthenticationStatus',
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      // Optionally validate the accessToken with your backend here
+      return !!accessToken; // Return true or false based on token presence
+    } catch (error) {
+      return rejectWithValue(error);
     }
   }
 );
@@ -41,10 +57,10 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
+    // Reducer for logout - make sure it's synchronous
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
-      // Clear token from AsyncStorage or secure storage here
     },
   },
   extraReducers: (builder) => {
@@ -55,27 +71,35 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = true;
-        state.user = action.payload; // Set user data
+        state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
-      // You can add more cases for other async thunks here, like registerUser
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state) => {
         state.isLoading = false;
         // Handle registration success if needed
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(checkAuthenticationStatus.fulfilled, (state, action) => {
+        state.isAuthenticated = action.payload;
       });
   },
 });
 
 export const { logout } = authSlice.actions;
+
+// Separate thunk for performing logout to handle async operations
+export const performLogout = () => async (dispatch) => {
+  await AsyncStorage.removeItem('accessToken'); // Async operation to remove token
+  dispatch(logout()); // Then dispatch the synchronous logout action
+};
 
 export default authSlice.reducer;
