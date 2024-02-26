@@ -44,7 +44,7 @@ const LinkText = styled.Text`
 `;
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigation = useNavigation(); // Using the hook to access navigation
@@ -57,16 +57,16 @@ const LoginScreen = () => {
   }, [isAuthenticated, navigation]);
 
   const handleLogin = () => {
-    dispatch(loginUser({ username, password }));
+    dispatch(loginUser({ email, password }));
   };
 
   return (
     <Container>
       <Title>Login</Title>
       <Input
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="email"
+        value={email}
+        onChangeText={setEmail}
         autoCapitalize="none"
       />
       <Input

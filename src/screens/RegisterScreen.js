@@ -1,39 +1,40 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import styled from 'styled-components/native';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginUser, registerUser } from '../redux/slices/authSlice';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const dispatch = useDispatch();
 
-  const handleRegister = async () => {
+  const handleRegister = () => {
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
     }
 
-    try {
-      const response = await axios.post('YOUR_API_ENDPOINT/register', {
-        email,
-        password,
+    // Dispatch the registerUser action with the necessary data
+    dispatch(registerUser({ email, password }))
+      .unwrap()
+      .then(() => {
+        console.log('Registration successful');
+        dispatch(loginUser({ email, password }))
+        // navigation.navigate('Login'); // Navigate to login screen upon successful registration
+      })
+      .catch((error) => {
+        console.error('Registration error', error);
+        alert('Registration failed.'); // Display error message
       });
-      // Handle response, e.g., navigate to login screen, show success message
-      console.log('Registration successful', response.data);
-      navigation.navigate('Login');
-    } catch (error) {
-      // Handle error, e.g., show error message
-      console.error('Registration error', error);
-      alert('Registration failed.');
-    }
   };
 
   return (
     <Container>
       <Title>Register</Title>
       <Input
-        placeholder="Email"
+        placeholder="email"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -41,12 +42,14 @@ const RegisterScreen = ({ navigation }) => {
       <Input
         placeholder="Password"
         secureTextEntry
+        textContentType="oneTimeCode" // or "none"
         value={password}
         onChangeText={setPassword}
       />
       <Input
         placeholder="Confirm Password"
         secureTextEntry
+        textContentType="oneTimeCode" // or "none"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
@@ -62,8 +65,7 @@ const RegisterScreen = ({ navigation }) => {
 
 export default RegisterScreen;
 
-
-
+// Styled components
 const Container = styled.View`
   flex: 1;
   justify-content: center;

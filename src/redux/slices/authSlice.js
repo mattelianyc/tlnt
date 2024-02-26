@@ -3,17 +3,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-console.log(' process  ', process.env.EXPO_PUBLIC_FURCK)
-
 // Async thunk to handle user login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/login`, { username, password });
-      // Store token in AsyncStorage
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/login`, { email, password });
       await AsyncStorage.setItem('accessToken', response.data.access_token);
-      return response.data; // Assuming this includes the user token and other user data
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -23,12 +20,13 @@ export const loginUser = createAsyncThunk(
 // Async thunk to handle user registration
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
-  async (userData, { rejectWithValue }) => {
+  async ({email, password}, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/register`, userData);
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/register`, {email, password});
+      // dispatch(loginUser({ email, password }));
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   }
 );
@@ -39,8 +37,7 @@ export const checkAuthenticationStatus = createAsyncThunk(
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
-      // Optionally validate the accessToken with your backend here
-      return !!accessToken; // Return true or false based on token presence
+      return !!accessToken;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -57,7 +54,6 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
-    // Reducer for logout - make sure it's synchronous
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
