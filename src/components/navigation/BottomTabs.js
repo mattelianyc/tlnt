@@ -5,7 +5,7 @@ import ChatScreen from "../../screens/ChatScreen";
 import FollowingScreen from "../../screens/FollowingScreen";
 import ProfileScreen from '../../screens/ProfileScreen';
 import { useDispatch } from 'react-redux';
-import { setSearchVisible } from '../../redux/actions';
+// import { setSearchVisible } from '../../redux/actions';
 
 const Tab = createBottomTabNavigator();
 

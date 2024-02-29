@@ -2,46 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
-import { loginUser } from '../redux/slices/authSlice';
+import { loginUser, fetchUserProfile } from '../redux/slices/authSlice';
 import { useNavigation } from '@react-navigation/native';
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  padding: 20px;
-`;
-
-const Title = styled.Text`
-  font-size: 24px;
-  font-family: 'Moirai';
-  font-weight: bold;
-  margin-bottom: 20px;
-`;
-
-const Input = styled.TextInput`
-  margin-bottom: 10px;
-  border-width: 1px;
-  padding: 10px;
-  border-radius: 5px;
-`;
-
-const Button = styled.TouchableOpacity`
-  background-color: blue;
-  padding: 15px;
-  border-radius: 5px;
-  align-items: center;
-`;
-
-const ButtonText = styled.Text`
-  color: white;
-  font-weight: bold;
-`;
-
-const LinkText = styled.Text`
-  margin-top: 20px;
-  color: blue;
-  text-align: center;
-`;
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -56,8 +18,19 @@ const LoginScreen = () => {
     }
   }, [isAuthenticated, navigation]);
 
-  const handleLogin = () => {
-    dispatch(loginUser({ email, password }));
+  const handleLogin = async () => {
+    try {
+      const actionResult = await dispatch(loginUser({ email, password }));
+      if (loginUser.fulfilled.match(actionResult)) {
+        // After successful login, fetch user profile
+        dispatch(fetchUserProfile());
+      } else {
+        // Handle login error
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("An error occurred during login", error);
+    }
   };
 
   return (
@@ -96,3 +69,42 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
+
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  padding: 20px;
+`;
+
+const Title = styled.Text`
+  font-size: 24px;
+  font-family: 'Moirai';
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const Input = styled.TextInput`
+  margin-bottom: 10px;
+  border-width: 1px;
+  padding: 10px;
+  border-radius: 5px;
+`;
+
+const Button = styled.TouchableOpacity`
+  background-color: blue;
+  padding: 15px;
+  border-radius: 5px;
+  align-items: center;
+`;
+
+const ButtonText = styled.Text`
+  color: white;
+  font-weight: bold;
+`;
+
+const LinkText = styled.Text`
+  margin-top: 20px;
+  color: blue;
+  text-align: center;
+`;

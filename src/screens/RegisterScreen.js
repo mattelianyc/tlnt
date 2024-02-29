@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
-import { loginUser, registerUser } from '../redux/slices/authSlice';
+import { loginUser, registerUser, fetchUserProfile } from '../redux/slices/authSlice';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -19,9 +19,20 @@ const RegisterScreen = ({ navigation }) => {
     // Dispatch the registerUser action with the necessary data
     dispatch(registerUser({ email, password }))
       .unwrap()
-      .then(() => {
+      .then(async () => {
         console.log('Registration successful');
-        dispatch(loginUser({ email, password }))
+        try {
+          const actionResult = await dispatch(loginUser({ email, password }));
+          if (loginUser.fulfilled.match(actionResult)) {
+            // After successful login, fetch user profile
+            dispatch(fetchUserProfile());
+          } else {
+            // Handle login error
+            console.error("Login failed");
+          }
+        } catch (error) {
+          console.error("An error occurred during login", error);
+        }
         // navigation.navigate('Login'); // Navigate to login screen upon successful registration
       })
       .catch((error) => {
