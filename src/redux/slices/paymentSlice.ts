@@ -35,6 +35,9 @@ export const initializePaymentSheet = createAsyncThunk<PaymentIntentResult, Paym
     try {
       const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/payments/create-payment-intent`, { amount });
       const { paymentIntent, ephemeralKey, customer } = response.data;
+      console.log(paymentIntent)
+      console.log(ephemeralKey)
+      console.log(customer)
       return { paymentIntent, ephemeralKey, customer };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
