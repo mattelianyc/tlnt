@@ -1,6 +1,44 @@
-// src/features/account/accountSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
+// Async thunk for fetching account details
+export const fetchAccountData = createAsyncThunk('account/fetchAccountDetails', async (userId, { rejectWithValue }) => {
+  try {
+    const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/account/${userId}/details`);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
+// Async thunk for adding funds
+export const addFunds = createAsyncThunk(
+  'account/addFunds',
+  async ({ userId, amount }, { dispatch, rejectWithValue }) => {
+    try {
+      // Step 1: Create Payment Intent
+      const paymentIntentResponse = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/payments/create-payment-intent`, {
+        amount: amount * 100, // Convert to cents
+      });
+      const { clientSecret, paymentIntentId } = paymentIntentResponse.data;
+
+      // In a real app, use Stripe's SDK to handle payment with clientSecret
+      // For simulation, assume payment succeeds and we get a paymentIntentId
+      
+      // Step 2: Record transaction after successful payment
+      // Update to use the new endpoint for recording payments
+      await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/account/${userId}/record-payment`, {
+        paymentIntentId,
+        amount,
+      });
+
+      // Step 3: Refresh account data
+      dispatch(fetchAccountData(userId));
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const initialState = {
   balance: 0,
@@ -9,28 +47,34 @@ const initialState = {
   error: null,
 };
 
-// Adjust this to your new endpoint that returns both balance and transactions
-export const fetchAccountData = createAsyncThunk('account/fetchAccountDetails', async (userId) => {
-  const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/account/${userId}/details`);
-  return response.data;
-});
-
 const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {},
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchAccountData.pending, (state, action) => {
+      // Handling fetchAccountData
+      .addCase(fetchAccountData.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchAccountData.fulfilled, (state, action) => {
-        console.log('Action payload:', action.payload);
         state.status = 'succeeded';
         state.balance = action.payload.balance;
         state.transactions = action.payload.transactions;
-      })      
+      })
       .addCase(fetchAccountData.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      // Handling addFunds
+      .addCase(addFunds.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(addFunds.fulfilled, (state) => {
+        state.status = 'succeeded';
+        // Account data will be refreshed by fetchAccountData, so no need to update state here
+      })
+      .addCase(addFunds.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });

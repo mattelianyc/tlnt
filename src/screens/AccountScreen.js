@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Alert, TextInput, Button, StatusBar } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios'; // Import Axios
-import { fetchAccountData } from '../redux/slices/accountSlice';
+import { fetchAccountData, addFunds } from '../redux/slices/accountSlice';
 import { useStripe } from '@stripe/stripe-react-native';
 import TransactionList from '../components/common/TransactionList';
 import { GlobalText } from '../styles/StyledComponents';
+import axios from 'axios';
 
 const AccountScreen = () => {
   const [addAmount, setAddAmount] = useState('');
   const dispatch = useDispatch();
-  const { balance, transactions } = useSelector((state) => state.account);
-  const { user } = useSelector((state) => state.auth);
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const { balance, transactions } = useSelector((state) => state.account);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (user && user._id) {
@@ -21,51 +21,47 @@ const AccountScreen = () => {
     }
   }, [dispatch, user]);
 
-  const fetchClientSecret = async () => {
+  // This function should be adjusted to correctly create a payment intent and fetch the clientSecret from your backend.
+  const fetchClientSecretAndPresentPaymentSheet = async () => {
     try {
-      // Use Axios to send a POST request
+      // Adjust this request to match your backend endpoint for creating a payment intent
       const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/payments/create-payment-intent`, {
-        amount: parseInt(addAmount, 10) * 100, // Convert amount to cents and to a number
+        amount: parseInt(addAmount, 10) * 100, // Convert amount to cents
+        userId: user._id, // Include user ID if necessary for your backend logic
       });
-      console.log('response ', response)
-      // Axios automatically parses the JSON response, so you can directly access `data`
-      const { clientSecret } = response.data;
-      return clientSecret;
+
+      const { clientSecret, paymentIntentId } = response.data;
+
+      const { error } = await initPaymentSheet({
+        paymentIntentClientSecret: clientSecret,
+      });
+
+      if (error) {
+        Alert.alert("Error", error.message);
+        return;
+      }
+
+      const result = await presentPaymentSheet();
+      if (result.error) {
+        Alert.alert("Payment failed", result.error.message);
+      } else {
+        Alert.alert("Success", "Payment successful");
+        // Dispatch action to record successful payment and refresh account data
+        dispatch(addFunds({ userId: user._id, paymentIntentId, amount: parseFloat(addAmount) }));
+        setAddAmount('');
+      }
     } catch (error) {
-      console.error('Error fetching client secret:', error);
-      Alert.alert('Error', 'Unable to fetch payment information.');
+      console.error('Error during payment:', error);
+      Alert.alert('Error', 'Failed to initiate payment');
     }
   };
 
-  const handlePressAddFunds = async () => {
-    const clientSecret = await fetchClientSecret();
-    
-    if (!clientSecret) {
-      return; // Exit if we didn't get a client secret
-    }
-
-    // Initialize the payment sheet with the client secret
-    const { error } = await initPaymentSheet({
-      paymentIntentClientSecret: clientSecret,
-      merchantDisplayName: 'Tlnt Corp.',
-      returnURL: 'tlnt://redirect', // Use your custom URL scheme
-    });
-
-    if (error) {
-      Alert.alert('Error', error.message);
+  const handlePressAddFunds = () => {
+    if (!addAmount) {
+      Alert.alert('Error', 'Please enter an amount.');
       return;
     }
-
-    // Present the payment sheet
-    const { error: presentError } = await presentPaymentSheet();
-
-    if (presentError) {
-      Alert.alert('Error', presentError.message);
-    } else {
-      Alert.alert('Success', 'Payment successful');
-      // Optionally, refresh the account data
-      dispatch(fetchAccountData(user._id));
-    }
+    fetchClientSecretAndPresentPaymentSheet();
   };
 
   return (
@@ -80,9 +76,7 @@ const AccountScreen = () => {
           keyboardType="numeric"
           style={{ backgroundColor: 'white', width: '80%', padding: 10, borderRadius: 5 }}
         />
-        <AddFundsButton onPress={handlePressAddFunds}>
-          <AddFundsButtonText>Add Funds</AddFundsButtonText>
-        </AddFundsButton>
+        <Button title="Add Funds" onPress={handlePressAddFunds} />
       </BalanceSection>
       <TransactionList transactions={transactions || []} />
     </Container>
@@ -90,6 +84,8 @@ const AccountScreen = () => {
 };
 
 export default AccountScreen;
+
+
 
 // Styled components remain the same
 const Container = styled.View`
