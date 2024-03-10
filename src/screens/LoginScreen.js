@@ -14,7 +14,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigation.replace('Home'); // Use 'replace' to prevent going back to login screen
+      navigation.replace('home');
     }
   }, [isAuthenticated, navigation]);
 

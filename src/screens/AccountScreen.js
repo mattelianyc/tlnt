@@ -16,6 +16,7 @@ const AccountScreen = () => {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
+    console.log('u ', user)
     if (user && user._id) {
       dispatch(fetchAccountData(user._id));
     }

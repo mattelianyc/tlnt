@@ -3,52 +3,53 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Text, View } from 'react-native';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import store from './src/redux/store';
-import { checkAuthenticationStatus } from './src/redux/slices/authSlice';
+import { checkAuthenticationStatus, fetchUserProfile } from './src/redux/slices/authSlice';
 import AuthNavigator from './src/components/navigation/AuthNavigator';
 import MainNavigator from './src/components/navigation/MainNavigator';
 import * as Font from 'expo-font';
 import { StripeProvider } from '@stripe/stripe-react-native';
 
-const PaymentScreen = () => {
-  // Implement the payment screen here
-  // This is a placeholder for where you would use Stripe's useStripe hook
-  // and other functionalities to manage payments.
-  return <View><Text>Payment Screen Placeholder</Text></View>;
-};
-
 const AppContent = () => {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { isAuthenticated, profileLoaded } = useSelector((state) => state.auth);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [authCheckCompleted, setAuthCheckCompleted] = useState(false);
+  const [initializationComplete, setInitializationComplete] = useState(false);
 
   useEffect(() => {
-    const loadResourcesAndDataAsync = async () => {
+    const initializeApp = async () => {
       try {
         await Font.loadAsync({
           'Moirai': require('./assets/fonts/nyc/nyc1970.otf'),
           'nyc': require('./assets/fonts/morai/MoiraiOne-Regular.ttf'),
         });
 
-        await dispatch(checkAuthenticationStatus()).unwrap();
+        const authStatus = await dispatch(checkAuthenticationStatus()).unwrap();
+        if (authStatus) {
+          try {
+            await dispatch(fetchUserProfile()).unwrap();
+          } catch (error) {
+            console.warn("Failed to fetch user profile:", error);
+          }
+        }
       } catch (e) {
-        console.warn(e);
+        console.warn("Initialization error:", e);
       } finally {
         setFontsLoaded(true);
-        setAuthCheckCompleted(true);
+        setInitializationComplete(true); // Ensure this is set to true to exit the loading state.
       }
     };
 
-    loadResourcesAndDataAsync();
+    initializeApp();
   }, [dispatch]);
 
-  if (!fontsLoaded || !authCheckCompleted) {
+  // Adjust loading check to account for initialization completion
+  if (!fontsLoaded || !initializationComplete) {
     return <View><Text>Loading...</Text></View>;
   }
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+      {isAuthenticated && profileLoaded ? <MainNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };

@@ -1,9 +1,7 @@
-// src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Async thunk to handle user login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
@@ -17,12 +15,11 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// Async thunk to handle user registration
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
-  async ({email, password}, { rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/register`, {email, password});
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/register`, { email, password });
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -34,23 +31,22 @@ export const fetchUserProfile = createAsyncThunk(
   'auth/fetchUserProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const accessToken = await AsyncStorage.getItem('accessToken'); // Assuming token is stored here after login
+      const accessToken = await AsyncStorage.getItem('accessToken');
       const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/auth/profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      return response.data; // Assuming this includes the user's ID and other profile info
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.toString());
     }
   }
 );
 
-// Async thunk to check authentication status based on the presence of an accessToken in AsyncStorage
 export const checkAuthenticationStatus = createAsyncThunk(
   'auth/checkAuthenticationStatus',
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
       return !!accessToken;
@@ -60,12 +56,12 @@ export const checkAuthenticationStatus = createAsyncThunk(
   }
 );
 
-// Auth slice
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
     isAuthenticated: false,
+    profileLoaded: false,
     isLoading: false,
     error: null,
   },
@@ -73,6 +69,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      state.profileLoaded = false;
     },
   },
   extraReducers: (builder) => {
@@ -94,7 +91,6 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state) => {
         state.isLoading = false;
-        // Handle registration success if needed
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -104,31 +100,17 @@ const authSlice = createSlice({
         state.isAuthenticated = action.payload;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
-        // Now setting the user object directly from the fetched profile data
         state.user = action.payload;
-        console.log('state user = action payload ', state.user)
-        state.isAuthenticated = true; // Assuming presence of user data means authenticated
-      })
-      // .addCase(fetchUserProfile.fulfilled, (state, action) => {
-        
-      //   if (!state.auth) {
-      //     state.auth = {};
-      //   }
-      //   // Set the user's ID from the fetched profile data
-      //   state.user._id = action.payload._id;
-      //   console.log('state.auth', state.user._id)
-      //   // Optionally, you could set the entire user object if needed
-      //   // state.user = { id: action.payload._id, ...action.payload };
-      // });
+        state.profileLoaded = true;
+      });
   },
 });
 
 export const { logout } = authSlice.actions;
 
-// Separate thunk for performing logout to handle async operations
 export const performLogout = () => async (dispatch) => {
-  await AsyncStorage.removeItem('accessToken'); // Async operation to remove token
-  dispatch(logout()); // Then dispatch the synchronous logout action
+  await AsyncStorage.removeItem('accessToken');
+  dispatch(logout());
 };
 
 export default authSlice.reducer;
