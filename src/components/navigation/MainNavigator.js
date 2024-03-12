@@ -27,7 +27,7 @@ const MainNavigator = () => {
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="ollie" component={BottomTabs} />
+      <Drawer.Screen name="talent" component={BottomTabs} />
       <Drawer.Screen name="settings" component={SettingsScreen} />
       <Drawer.Screen name="account" component={AccountScreen} />
     </Drawer.Navigator>

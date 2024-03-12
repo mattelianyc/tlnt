@@ -36,7 +36,7 @@ const CustomNavbar = ({ navigation }) => {
       <TopNavMiddle>
         {!searchVisible && (
           <Text style={{ color: 'white', fontFamily: 'Moirai', fontSize: 32 }}>
-            {activeRouteName === 'home' ? 'ollie.' : activeRouteName}
+            {activeRouteName === 'home' ? 'talent' : activeRouteName}
           </Text>
         )}
         {searchVisible && <GlobalSearchBar />}
