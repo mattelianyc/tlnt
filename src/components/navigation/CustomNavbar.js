@@ -30,7 +30,7 @@ const CustomNavbar = ({ navigation }) => {
     <NavContainer>
       <TopNavLeft>
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Ionicons name="menu" size={24} color="white" />
+          <Ionicons name="menu" size={30} color="white" />
         </TouchableOpacity>
       </TopNavLeft>
       <TopNavMiddle>
@@ -44,8 +44,8 @@ const CustomNavbar = ({ navigation }) => {
       <TopNavRight>
         <TouchableOpacity onPress={toggleSearch}>
           {searchVisible ? 
-            <Ionicons name="close" size={24} color="white" /> : 
-            <Ionicons name="search" size={24} color="white" />
+            <Ionicons name="close" size={30} color="white" /> : 
+            <Ionicons name="search" size={30} color="white" />
           }
         </TouchableOpacity>
       </TopNavRight>

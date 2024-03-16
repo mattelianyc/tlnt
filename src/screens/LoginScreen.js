@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, ActivityIndicator, Switch } from 'react-native';
 import styled from 'styled-components/native';
+import { useDispatch } from 'react-redux';
 import { loginUser, fetchUserProfile } from '../redux/slices/authSlice';
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,25 +9,13 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const navigation = useNavigation(); // Using the hook to access navigation
-  const { isAuthenticated, isLoading, error } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigation.replace('home');
-    }
-  }, [isAuthenticated, navigation]);
+  const navigation = useNavigation();
+  const [isTalent, setIsTalent] = useState(false);
 
   const handleLogin = async () => {
     try {
-      const actionResult = await dispatch(loginUser({ email, password }));
-      if (loginUser.fulfilled.match(actionResult)) {
-        // After successful login, fetch user profile
-        dispatch(fetchUserProfile());
-      } else {
-        // Handle login error
-        console.error("Login failed");
-      }
+      await dispatch(loginUser({ email, password, isTalent }));
+      dispatch(fetchUserProfile());
     } catch (error) {
       console.error("An error occurred during login", error);
     }
@@ -37,30 +25,22 @@ const LoginScreen = () => {
     <Container>
       <Title>Login</Title>
       <Input
-        placeholder="email"
+        placeholder="Email"
+        placeholderTextColor="#fff"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
       />
       <Input
         placeholder="Password"
+        placeholderTextColor="#fff"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
-        autoCapitalize="none"
       />
-      <Button onPress={handleLogin} disabled={isLoading}>
-        {isLoading ? (
-          <ActivityIndicator size="small" color="#fff" />
-        ) : (
-          <ButtonText>Sign In</ButtonText>
-        )}
+      <Button onPress={handleLogin}>
+        <ButtonText>Sign In</ButtonText>
       </Button>
-      {error && (
-        <Text style={{ color: 'red', textAlign: 'center' }}>
-          {typeof error === 'string' ? error : error.message || 'An error occurred. Please try again.'}
-        </Text>
-      )}
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <LinkText>Don't have an account? Register</LinkText>
       </TouchableOpacity>
@@ -70,17 +50,17 @@ const LoginScreen = () => {
 
 export default LoginScreen;
 
-
+// Styled components
 const Container = styled.View`
   flex: 1;
   justify-content: center;
   padding: 20px;
+  background-color: black;
 `;
 
 const Title = styled.Text`
   font-size: 24px;
-  font-family: 'Moirai';
-  font-weight: bold;
+  color: white;
   margin-bottom: 20px;
 `;
 
@@ -89,6 +69,8 @@ const Input = styled.TextInput`
   border-width: 1px;
   padding: 10px;
   border-radius: 5px;
+  color: white;
+  border-color: white;
 `;
 
 const Button = styled.TouchableOpacity`
@@ -107,4 +89,16 @@ const LinkText = styled.Text`
   margin-top: 20px;
   color: blue;
   text-align: center;
+`;
+
+const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+const LabelText = styled.Text`
+  color: white;
+  font-size: 16px;
 `;

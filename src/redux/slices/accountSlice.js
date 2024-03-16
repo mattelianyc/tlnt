@@ -1,20 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Async thunk for fetching account details
-export const fetchAccountData = createAsyncThunk('account/fetchAccountDetails', async (userId, { rejectWithValue }) => {
+// Async thunk for fetching account details with improved error handling
+export const fetchAccountData = createAsyncThunk('account/fetchAccountDetails', async (user, { rejectWithValue }) => {
+  console.log('fetch account data: ', user)
   try {
-    const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/account/${userId}/details`);
+    const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/account/${user._id}/details`);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    // Improved error handling: Log the error and reject with a clear message
+    console.error("Error fetching account details:", error.toString());
+    return rejectWithValue('Failed to fetch account details. Please try again later.');
   }
 });
+
 
 // Async thunk for adding funds
 export const addFunds = createAsyncThunk(
   'account/addFunds',
-  async ({ userId, amount }, { dispatch, rejectWithValue }) => {
+  async ({ user, amount }, { dispatch, rejectWithValue }) => {
+
     try {
       // Step 1: Create Payment Intent
       const paymentIntentResponse = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/payments/create-payment-intent`, {
@@ -27,13 +32,13 @@ export const addFunds = createAsyncThunk(
       
       // Step 2: Record transaction after successful payment
       // Update to use the new endpoint for recording payments
-      await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/account/${userId}/record-payment`, {
+      await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/account/${user._id}/record-payment`, {
         paymentIntentId,
         amount,
       });
 
       // Step 3: Refresh account data
-      dispatch(fetchAccountData(userId));
+      dispatch(fetchAccountData(user));
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, Switch } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { loginUser, registerUser, fetchUserProfile } from '../redux/slices/authSlice';
@@ -8,6 +8,7 @@ const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [userType, setUserType] = useState('regular');
   const dispatch = useDispatch();
 
   const handleRegister = () => {
@@ -16,28 +17,25 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    // Dispatch the registerUser action with the necessary data
-    dispatch(registerUser({ email, password }))
+    // Include the userType in your registration logic
+    dispatch(registerUser({ email, password, userType }))
       .unwrap()
       .then(async () => {
         console.log('Registration successful');
         try {
           const actionResult = await dispatch(loginUser({ email, password }));
           if (loginUser.fulfilled.match(actionResult)) {
-            // After successful login, fetch user profile
             dispatch(fetchUserProfile());
           } else {
-            // Handle login error
             console.error("Login failed");
           }
         } catch (error) {
           console.error("An error occurred during login", error);
         }
-        // navigation.navigate('Login'); // Navigate to login screen upon successful registration
       })
       .catch((error) => {
         console.error('Registration error', error);
-        alert('Registration failed.'); // Display error message
+        alert('Registration failed.');
       });
   };
 
@@ -45,25 +43,37 @@ const RegisterScreen = ({ navigation }) => {
     <Container>
       <Title>Register</Title>
       <Input
-        placeholder="email"
+        placeholder="Email"
+        placeholderTextColor="#fff"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
       />
       <Input
         placeholder="Password"
+        placeholderTextColor="#fff"
         secureTextEntry
-        textContentType="oneTimeCode" // or "none"
+        textContentType="oneTimeCode"
         value={password}
         onChangeText={setPassword}
       />
       <Input
         placeholder="Confirm Password"
+        placeholderTextColor="#fff"
         secureTextEntry
-        textContentType="oneTimeCode" // or "none"
+        textContentType="oneTimeCode"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
+      <Row>
+        <LabelText>Register as Talent:</LabelText>
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={userType === "talent" ? "#f5dd4b" : "#f4f3f4"}
+          onValueChange={(newValue) => setUserType(newValue ? "talent" : "regular")}
+          value={userType === "talent"}
+        />
+      </Row>
       <Button onPress={handleRegister}>
         <ButtonText>Register</ButtonText>
       </Button>
@@ -76,18 +86,18 @@ const RegisterScreen = ({ navigation }) => {
 
 export default RegisterScreen;
 
-// Styled components
 const Container = styled.View`
   flex: 1;
   justify-content: center;
   padding: 20px;
+  background-color: black; 
 `;
 
 const Title = styled.Text`
   font-size: 24px;
-  font-family: 'Moirai';
   font-weight: bold;
   margin-bottom: 20px;
+  color: white; 
 `;
 
 const Input = styled.TextInput`
@@ -95,6 +105,8 @@ const Input = styled.TextInput`
   border-width: 1px;
   padding: 10px;
   border-radius: 5px;
+  color: white; 
+  border-color: white;
 `;
 
 const Button = styled.TouchableOpacity`
@@ -113,4 +125,16 @@ const LinkText = styled.Text`
   margin-top: 20px;
   color: blue;
   text-align: center;
+`;
+
+const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+const LabelText = styled.Text`
+  color: white;
+  font-size: 16px;
 `;

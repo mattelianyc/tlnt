@@ -16,10 +16,7 @@ const AccountScreen = () => {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    console.log('u ', user)
-    if (user && user._id) {
-      dispatch(fetchAccountData(user._id));
-    }
+    if (user && user._id) dispatch(fetchAccountData(user));
   }, [dispatch, user]);
 
   // This function should be adjusted to correctly create a payment intent and fetch the clientSecret from your backend.
@@ -30,7 +27,7 @@ const AccountScreen = () => {
         amount: parseInt(addAmount, 10) * 100, // Convert amount to cents
         userId: user._id, // Include user ID if necessary for your backend logic
       });
-
+      
       const { clientSecret, paymentIntentId } = response.data;
 
       const { error } = await initPaymentSheet({
@@ -43,12 +40,13 @@ const AccountScreen = () => {
       }
 
       const result = await presentPaymentSheet();
+
       if (result.error) {
-        Alert.alert("Payment failed", result.error.message);
+        Alert.alert("Payment failed", result.error.message); 
       } else {
         Alert.alert("Success", "Payment successful");
         // Dispatch action to record successful payment and refresh account data
-        dispatch(addFunds({ userId: user._id, paymentIntentId, amount: parseFloat(addAmount) }));
+        dispatch(addFunds({ user: user, paymentIntentId, amount: parseFloat(addAmount) }));
         setAddAmount('');
       }
     } catch (error) {

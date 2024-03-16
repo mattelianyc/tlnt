@@ -3,7 +3,7 @@ import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { Ionicons } from '@expo/vector-icons';
 import VideoPlayer from './VideoPlayer';
-import bacon from '../../../assets/videos/bacon.mp4'
+import bacon from '../../../assets/videos/prod.mp4'
 import { ContentContainer, GlobalText, SectionHeaderText, Tab, TabContainer, TabText } from '../../styles/StyledComponents';
 import VideoList from './VideoList';
 import useShareContent from '../../hooks/useShareContent';
@@ -78,7 +78,7 @@ const VideoModal = ({ isVisible, video, relatedVideos, onClose }) => {
             </TouchableOpacity>
           </ModalHeader>
 
-          <VideoPlayer videoUri={require('../../../assets/videos/bacon.mp4')} />
+          <VideoPlayer videoUri={require('../../../assets/videos/prod.mp4')} />
 
           <ActionButton>
             <ActionButtonText>BUY NOW</ActionButtonText>
